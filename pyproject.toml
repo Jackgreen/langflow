@@ -83,6 +83,11 @@ types-pillow = "^9.5.0.2"
 [tool.poetry.extras]
 deploy = ["langchain-serve"]
 
+[[tool.poetry.source]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple"
+priority = "default"
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra"
