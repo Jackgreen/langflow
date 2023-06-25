@@ -1,8 +1,13 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from langflow.api import router
 from langflow.database.base import create_db_and_tables
+
+os.environ["http_proxy"] = "http://10.105.16.23:7890"
+os.environ["https_proxy"] = "http://10.105.16.23:7890"
 
 
 def create_app():
@@ -32,7 +37,6 @@ def create_app():
 
 
 app = create_app()
-
 
 if __name__ == "__main__":
     import uvicorn
