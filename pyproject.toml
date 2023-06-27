@@ -17,6 +17,10 @@ keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
 packages = [{ include = "langflow", from = "src/backend" }]
 include = ["src/backend/langflow/*", "src/backend/langflow/**/*"]
 
+[[tool.poetry.source]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple"
+priority = "default"
 
 [tool.poetry.scripts]
 langflow = "langflow.__main__:main"
