@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional, Type
 
 from langflow.interface.base import LangChainTypeCreator
+from langflow.interface.document_loaders.custom import CommonFileLoader
 from langflow.template.frontend_node.documentloaders import DocumentLoaderFrontNode
 from langflow.interface.custom_lists import documentloaders_type_to_cls_dict
 from langflow.settings import settings
@@ -17,7 +18,9 @@ class DocumentLoaderCreator(LangChainTypeCreator):
 
     @property
     def type_to_loader_dict(self) -> Dict:
-        return documentloaders_type_to_cls_dict
+        loader_dict = documentloaders_type_to_cls_dict
+        loader_dict["CommonFileLoader"] = CommonFileLoader
+        return loader_dict
 
     def get_signature(self, name: str) -> Optional[Dict]:
         """Get the signature of a document loader."""
