@@ -75,6 +75,19 @@ class DocumentLoaderFrontNode(FrontendNode):
                     advanced=False,
                 )
             )
+            self.template.add_field(
+                TemplateField(
+                    field_type="str",
+                    required=True,
+                    placeholder="",
+                    is_list=True,
+                    show=True,
+                    value="",
+                    options=["png", "jpg", "pdf"],
+                    name="file_type",
+                    advanced=False,
+                )
+            )
         if self.template.type_name in {"GitLoader"}:
             # Add fields repo_path, clone_url, branch and file_filter
             self.template.add_field(
