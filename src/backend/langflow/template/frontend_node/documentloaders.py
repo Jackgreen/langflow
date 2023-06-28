@@ -54,7 +54,7 @@ class DocumentLoaderFrontNode(FrontendNode):
             suffixes=[".docx", ".doc"], fileTypes=["docx", "doc"]
         ),
         "CommonFileLoader": build_file_field(
-            suffixes=[".png", ".jpg"], fileTypes=["png", "jpg"]
+            suffixes=[".png", ".jpg", ".pdf"], fileTypes=["png", "jpg", "pdf"]
         ),
     }
 
