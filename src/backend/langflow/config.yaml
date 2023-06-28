@@ -50,6 +50,7 @@ documentloaders:
   - NotionDirectoryLoader
   - DirectoryLoader
   - GitLoader
+  - CommonFileLoader
 embeddings:
   - OpenAIEmbeddings
   - HuggingFaceEmbeddings

@@ -9,6 +9,8 @@ from langchain.base_language import BaseLanguageModel
 from langchain.chains.base import Chain
 from langchain.chat_models.base import BaseChatModel
 from langchain.tools import BaseTool
+
+from langflow.interface.document_loaders.constants import CUSTOM_LOADERS
 from langflow.utils import validate
 
 
@@ -135,7 +137,10 @@ def import_vectorstore(vectorstore: str) -> Any:
 
 def import_documentloader(documentloader: str) -> Any:
     """Import documentloader from documentloader name"""
-    return import_class(f"langchain.document_loaders.{documentloader}")
+    if documentloader in CUSTOM_LOADERS.keys():
+        return CUSTOM_LOADERS[documentloader]
+    else:
+        return import_class(f"langchain.document_loaders.{documentloader}")
 
 
 def import_textsplitter(textsplitter: str) -> Any:
