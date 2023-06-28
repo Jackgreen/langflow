@@ -4,7 +4,7 @@ from langflow.template.frontend_node.base import FrontendNode
 
 
 def build_file_field(
-    suffixes: list, fileTypes: list, name: str = "file_path"
+        suffixes: list, fileTypes: list, name: str = "file_path"
 ) -> TemplateField:
     """Build a template field for a document loader."""
     return TemplateField(
@@ -53,11 +53,28 @@ class DocumentLoaderFrontNode(FrontendNode):
         "UnstructuredWordDocumentLoader": build_file_field(
             suffixes=[".docx", ".doc"], fileTypes=["docx", "doc"]
         ),
+        "CommonFileLoader": build_file_field(
+            suffixes=[".png", ".jpg"], fileTypes=["png", "jpg"]
+        ),
     }
 
     def add_extra_fields(self) -> None:
         name = None
         display_name = "Web Page"
+        if self.template.type_name in {"CommonFileLoader"}:
+            self.template.add_field(
+                TemplateField(
+                    field_type="str",
+                    required=True,
+                    placeholder="",
+                    is_list=True,
+                    show=True,
+                    value="ocr",
+                    options=["ocr", "parse_doc"],
+                    name="algo_type",
+                    advanced=False,
+                )
+            )
         if self.template.type_name in {"GitLoader"}:
             # Add fields repo_path, clone_url, branch and file_filter
             self.template.add_field(
