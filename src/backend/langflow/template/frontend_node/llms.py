@@ -32,6 +32,14 @@ class LLMFrontendNode(FrontendNode):
         field.advanced = not field.required
 
     @staticmethod
+    def format_customllm_field(field: TemplateField):
+        if field.name == "top_p":
+            field.show = True
+        if field.name == "type":
+            field.show = True
+            field.options = ["sy", "htf"]
+
+    @staticmethod
     def format_field(field: TemplateField, name: Optional[str] = None) -> None:
         display_names_dict = {
             "huggingfacehub_api_token": "HuggingFace Hub API Token",
@@ -42,13 +50,15 @@ class LLMFrontendNode(FrontendNode):
             LLMFrontendNode.format_azure_field(field)
         if name and "llama" in name.lower():
             LLMFrontendNode.format_llama_field(field)
+        if name and "customllm" in name.lower():
+            LLMFrontendNode.format_customllm_field(field)
         SHOW_FIELDS = ["repo_id"]
         if field.name in SHOW_FIELDS:
             field.show = True
 
         if "api" in field.name and (
-            "key" in field.name
-            or ("token" in field.name and "tokens" not in field.name)
+                "key" in field.name
+                or ("token" in field.name and "tokens" not in field.name)
         ):
             field.password = True
             field.show = True
