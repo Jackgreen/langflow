@@ -23,7 +23,6 @@ llm_type_to_cls_dict["anthropic-chat"] = ChatAnthropic  # type: ignore
 llm_type_to_cls_dict["azure-chat"] = AzureChatOpenAI  # type: ignore
 llm_type_to_cls_dict["openai-chat"] = ChatOpenAI  # type: ignore
 
-
 # Toolkits
 toolkit_type_to_loader_dict: dict[str, Any] = {
     toolkit_name: import_class(f"langchain.agents.agent_toolkits.{toolkit_name}")
