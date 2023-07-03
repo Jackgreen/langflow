@@ -125,7 +125,12 @@ def import_agent(agent: str) -> Agent:
 
 def import_llm(llm: str) -> BaseLanguageModel:
     """Import llm from llm name"""
-    return import_class(f"langchain.llms.{llm}")
+    if llm in ["CustomLLM"]:
+        result = import_class(f"langflow.interface.llms.custom.{llm}")
+        return import_class(f"langflow.interface.llms.custom.{llm}")
+    else:
+        return import_class(f"langchain.llms.{llm}")
+    # return CustomLLM
 
 
 def import_tool(tool: str) -> BaseTool:
