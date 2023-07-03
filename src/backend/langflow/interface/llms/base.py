@@ -2,6 +2,7 @@ from typing import Dict, List, Optional, Type
 
 from langflow.interface.base import LangChainTypeCreator
 from langflow.interface.custom_lists import llm_type_to_cls_dict
+from langflow.interface.llms.custom import CustomLLM
 from langflow.settings import settings
 from langflow.template.frontend_node.llms import LLMFrontendNode
 from langflow.utils.logger import logger
@@ -19,6 +20,7 @@ class LLMCreator(LangChainTypeCreator):
     def type_to_loader_dict(self) -> Dict:
         if self.type_dict is None:
             self.type_dict = llm_type_to_cls_dict
+            self.type_dict["CustomLLM"] = CustomLLM
         return self.type_dict
 
     def get_signature(self, name: str) -> Optional[Dict]:

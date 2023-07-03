@@ -36,6 +36,8 @@ class Edge:
             (output for output in self.source_types if output in self.target_reqs),
             None,
         )
+        if self.source.id.startswith('CustomLLM'):
+            self.matched_type = 'BaseLanguageModel'
         no_matched_type = self.matched_type is None
         if no_matched_type:
             logger.debug(self.source_types)
