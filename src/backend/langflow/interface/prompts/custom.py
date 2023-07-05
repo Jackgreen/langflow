@@ -5,6 +5,7 @@ from pydantic import root_validator
 
 from langflow.interface.utils import extract_input_variables_from_prompt
 
+
 # Steps to create a BaseCustomPrompt:
 # 1. Create a prompt template that endes with:
 #    Current conversation:
@@ -68,6 +69,28 @@ Human: {input}
     input_variables: List[str] = ["character", "series"]
 
 
+class CustomPrompt(PromptTemplate):
+    template: str = ""
+    rules: str = ""
+    candidate: str = ""
+
+    @root_validator(pre=False)
+    def build_template(cls, values):
+        format_dict = {}
+        for key in values.get("input_variables", []):
+            new_value = values.get(key, f"{{{key}}}")
+            format_dict[key] = new_value
+
+        values["template"] = values["template"].format(**format_dict)
+
+        values["template"] = values["template"]
+        values["input_variables"] = extract_input_variables_from_prompt(
+            values["template"]
+        )
+        return values
+
+
 CUSTOM_PROMPTS: Dict[str, Type[BaseCustomPrompt]] = {
-    "SeriesCharacterPrompt": SeriesCharacterPrompt
+    "SeriesCharacterPrompt": SeriesCharacterPrompt,
+    "CustomPrompt": CustomPrompt
 }

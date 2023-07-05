@@ -4,6 +4,7 @@ from langflow.template import frontend_node
 CUSTOM_NODES = {
     "prompts": {
         "ZeroShotPrompt": frontend_node.prompts.ZeroShotPromptNode(),
+        "CustomPrompt": frontend_node.prompts.CustomPromptNode(),
     },
     "tools": {
         "PythonFunctionTool": frontend_node.tools.PythonFunctionToolNode(),

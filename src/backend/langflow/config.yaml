@@ -75,6 +75,7 @@ prompts:
   - PromptTemplate
   - FewShotPromptTemplate
   - ZeroShotPrompt
+  - CustomPrompt
 textsplitters:
   - CharacterTextSplitter
   - RecursiveCharacterTextSplitter
