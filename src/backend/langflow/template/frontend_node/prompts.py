@@ -36,8 +36,8 @@ class PromptFrontendNode(FrontendNode):
             field.advanced = False
 
         if (
-            "Union" in field.field_type
-            and "BaseMessagePromptTemplate" in field.field_type
+                "Union" in field.field_type
+                and "BaseMessagePromptTemplate" in field.field_type
         ):
             field.field_type = "BaseMessagePromptTemplate"
 
@@ -109,6 +109,54 @@ class ZeroShotPromptNode(BasePromptFrontendNode):
         ],
     )
     description: str = "Prompt template for Zero Shot Agent."
+    base_classes: list[str] = ["BasePromptTemplate"]
+
+    def to_dict(self):
+        return super().to_dict()
+
+    @staticmethod
+    def format_field(field: TemplateField, name: Optional[str] = None) -> None:
+        PromptFrontendNode.format_field(field, name)
+
+
+class CustomPromptNode(BasePromptFrontendNode):
+    name: str = "CustomPrompt"
+    template: Template = Template(
+        type_name="CustomPrompt",
+        fields=[
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="",
+                name="candidate",
+            ),
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="",
+                name="rules",
+            ),
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="文本内容：{text}分类规则：{rules}备选标签：{candidate}根据分类规则为文本内容选择正确的备选标签：",
+                name="template",
+            ),
+        ],
+    )
+    description: str = "Custom template."
     base_classes: list[str] = ["BasePromptTemplate"]
 
     def to_dict(self):
