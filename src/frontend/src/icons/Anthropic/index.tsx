@@ -1,9 +1,10 @@
 import React, { forwardRef } from "react";
-import SvgAnthropicBox from "./AnthropicBox";
+// @ts-ignore
+import { ReactComponent as AnthropicSVG } from "./anthropic_box.svg";
 
 export const AnthropicIcon = forwardRef<
   SVGSVGElement,
   React.PropsWithChildren<{}>
 >((props, ref) => {
-  return <SvgAnthropicBox ref={ref} {...props} />;
+  return <AnthropicSVG ref={ref} {...props} />;
 });

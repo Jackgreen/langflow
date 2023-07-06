@@ -1,9 +1,10 @@
 import React, { forwardRef } from "react";
-import SvgAirbyte from "./Airbyte";
+// @ts-ignore
+import { ReactComponent as AirbyteSVG } from "./airbyte.svg";
 
 export const AirbyteIcon = forwardRef<
   SVGSVGElement,
   React.PropsWithChildren<{}>
 >((props, ref) => {
-  return <SvgAirbyte ref={ref} {...props} />;
+  return <AirbyteSVG ref={ref} {...props} />;
 });
