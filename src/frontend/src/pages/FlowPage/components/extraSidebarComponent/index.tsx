@@ -62,7 +62,7 @@ export default function ExtraSidebar() {
   return (
     <div className="w-52 flex flex-col overflow-hidden scrollbar-hide h-full border-r">
       <div className="mt-2 mb-2 w-full flex gap-2 justify-between px-2 items-center">
-        <ShadTooltip delayDuration={1000} content="Import" side="top">
+        <ShadTooltip delayDuration={1000} content="导入" side="top">
           <button
             className="hover:dark:hover:bg-[#242f47] text-gray-700 w-full justify-center shadow-sm transition-all duration-500 ease-in-out dark:bg-gray-800 dark:text-gray-300  relative inline-flex items-center rounded-md bg-white px-2 py-2 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             onClick={() => {
@@ -74,7 +74,7 @@ export default function ExtraSidebar() {
           </button>
         </ShadTooltip>
 
-        <ShadTooltip delayDuration={1000} content="Export" side="top">
+        <ShadTooltip delayDuration={1000} content="导出" side="top">
           <button
             className={classNames(
               "hover:dark:hover:bg-[#242f47] text-gray-700 w-full justify-center shadow-sm transition-all duration-500 ease-in-out dark:bg-gray-800 dark:text-gray-300  relative inline-flex items-center bg-white px-2 py-2  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 rounded-md"
@@ -86,7 +86,7 @@ export default function ExtraSidebar() {
             <FileDown className="w-5 h-5  dark:text-gray-300"></FileDown>
           </button>
         </ShadTooltip>
-        <ShadTooltip delayDuration={1000} content="Code" side="top">
+        <ShadTooltip delayDuration={1000} content="代码" side="top">
           <button
             className={classNames(
               "hover:dark:hover:bg-[#242f47] text-gray-700 w-full justify-center shadow-sm transition-all duration-500 ease-in-out dark:bg-gray-800 dark:text-gray-300  relative inline-flex items-center bg-white px-2 py-2  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 rounded-md"
@@ -99,7 +99,7 @@ export default function ExtraSidebar() {
           </button>
         </ShadTooltip>
 
-        <ShadTooltip delayDuration={1000} content="Save" side="top">
+        <ShadTooltip delayDuration={1000} content="保存" side="top">
           <button
             className="hover:dark:hover:bg-[#242f47] text-gray-700 w-full justify-center transition-all shadow-sm duration-500 ease-in-out dark:bg-gray-800 dark:text-gray-300  relative inline-flex items-center bg-white px-2 py-2  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 rounded-md"
             onClick={(event) => {
@@ -122,7 +122,7 @@ export default function ExtraSidebar() {
           type="text"
           name="search"
           id="search"
-          placeholder="Search"
+          placeholder="搜索"
           className={
             INPUT_STYLE +
             "w-full border-1 dark:border-slate-600 dark:border-0.5 dark:ring-0 focus-visible:dark:ring-0 focus-visible:dark:ring-offset-1 rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"

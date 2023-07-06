@@ -51,7 +51,7 @@ export default function FlowSettingsModal() {
       <DialogContent className="lg:max-w-[600px] h-[390px]">
         <DialogHeader>
           <DialogTitle className="flex items-center">
-            <span className="pr-2">Settings </span>
+            <span className="pr-2">设置 </span>
             <Settings2 className="w-4 h-4 mr-2 dark:text-gray-300" />
           </DialogTitle>
           <DialogDescription>{SETTINGS_DIALOG_SUBTITLE}</DialogDescription>
@@ -69,7 +69,7 @@ export default function FlowSettingsModal() {
 
         <DialogFooter>
           <Button onClick={handleClick} type="submit">
-            Save
+            保存
           </Button>
         </DialogFooter>
       </DialogContent>

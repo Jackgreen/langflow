@@ -41,7 +41,7 @@ export default function CommunityPage() {
       <div className="w-full flex justify-between py-12 pb-2 px-6">
         <span className="text-2xl flex items-center justify-center gap-2 font-semibold">
           <Users2 className="w-6" />
-          Community Examples
+          社区示例
         </span>
         <div className="flex gap-2">
           <a
@@ -51,15 +51,13 @@ export default function CommunityPage() {
           >
             <Button variant="primary">
               <GithubIcon className="w-4 mr-2" />
-              Add Your Example
+              添加示例
             </Button>
           </a>
         </div>
       </div>
       <span className="flex pb-8 px-6 w-[70%] text-muted-foreground">
-        Discover and learn from shared examples by the LangFlow community. We
-        welcome new example contributions that can help our community explore
-        new and powerful features.
+         发现并学习社区的共享示例。欢迎贡献帮助我们的社区探索新的强大功能的示例。
       </span>
       <div className="w-full p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {!loadingExamples &&

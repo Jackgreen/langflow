@@ -28,11 +28,11 @@ export default function FlowPage() {
         )}
       <a
         target={"_blank"}
-        href="https://logspace.ai/"
+        href="https://www.zhejianglab.com/home"
         className="absolute left-7 bottom-2 flex h-6 cursor-pointer flex-col items-center justify-start overflow-hidden rounded-lg bg-foreground px-2 text-center font-sans text-xs tracking-wide text-secondary transition-all duration-500 ease-in-out hover:h-12"
       >
-        {version && <div className="mt-1">⛓️ LangFlow v{version}</div>}
-        <div className={version ? "mt-2" : "mt-1"}>Created by Logspace</div>
+        {version && <div className="mt-1">⛓️ AI Panel</div>}
+        <div className={version ? "mt-2" : "mt-1"}>之江实验室</div>
       </a>
     </div>
   );

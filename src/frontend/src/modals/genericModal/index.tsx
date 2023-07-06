@@ -62,10 +62,10 @@ export default function GenericModal({
           <DialogDescription>
             {(() => {
               switch (myModalTitle) {
-                case "Edit Text":
+                case "编辑文本":
                   return TEXT_DIALOG_SUBTITLE;
 
-                case "Edit Prompt":
+                case "编辑Prompt":
                   return PROMPT_DIALOG_SUBTITLE;
 
                 default:

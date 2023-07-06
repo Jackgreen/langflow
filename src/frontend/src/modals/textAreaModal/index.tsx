@@ -82,7 +82,7 @@ export default function TextAreaModal({
                         as="h3"
                         className="text-lg font-medium dark:text-white leading-10 text-gray-900"
                       >
-                        Edit text
+                        编辑文本
                       </Dialog.Title>
                     </div>
                   </div>

@@ -7,13 +7,13 @@ import { buildTweaks } from "./utils";
  * The base text for subtitle of Export Dialog (Toolbar)
  * @constant
  */
-export const EXPORT_DIALOG_SUBTITLE = "Export flow as JSON file.";
+export const EXPORT_DIALOG_SUBTITLE = "将工作流导出为JSON文件。";
 
 /**
  * The base text for subtitle of Flow Settings (Menubar)
  * @constant
  */
-export const SETTINGS_DIALOG_SUBTITLE = "Edit details about your project.";
+export const SETTINGS_DIALOG_SUBTITLE = "编辑项目的详情。";
 
 /**
  * The base text for subtitle of Code Dialog (Toolbar)
@@ -41,13 +41,13 @@ export const CODE_PROMPT_DIALOG_SUBTITLE =
  * @constant
  */
 export const PROMPT_DIALOG_SUBTITLE =
-  "Create your prompt. Prompts can help guide the behavior of a Language Model.";
+  "创建您的prompt。 Prompts可以帮助指导一个语言模型的行为。";
 
 /**
  * The base text for subtitle of Text Dialog
  * @constant
  */
-export const TEXT_DIALOG_SUBTITLE = "Edit your text.";
+export const TEXT_DIALOG_SUBTITLE = "编辑您的文本。";
 
 /**
  * Function to get the python code for the API
@@ -141,7 +141,7 @@ export const IMPORT_DIALOG_SUBTITLE =
  * @constant
  */
 export const EXPORT_CODE_DIALOG =
-  "Generate the code to integrate your flow into an external application.";
+  "生成代码用来将流集成到外部应用程序中。";
 
 /**
  * The base text for subtitle of code dialog
@@ -155,27 +155,25 @@ export const INPUT_STYLE =
  * @constant
  */
 export const DESCRIPTIONS: string[] = [
-  "Chain the Words, Master Language!",
-  "Language Architect at Work!",
-  "Empowering Language Engineering.",
-  "Craft Language Connections Here.",
-  "Create, Connect, Converse.",
-  "Smart Chains, Smarter Conversations.",
-  "Bridging Prompts for Brilliance.",
-  "Language Models, Unleashed.",
-  "Your Hub for Text Generation.",
-  "Promptly Ingenious!",
-  "Building Linguistic Labyrinths.",
-  "LangFlow: Create, Chain, Communicate.",
-  "Connect the Dots, Craft Language.",
-  "Interactive Language Weaving.",
-  "Generate, Innovate, Communicate.",
-  "Conversation Catalyst Engine.",
-  "Language Chainlink Master.",
-  "Design Dialogues with LangFlow.",
-  "Nurture NLP Nodes Here.",
-  "Conversational Cartography Unlocked.",
-  "Design, Develop, Dialogize.",
+  "把单词串起来，掌握语言!",
+  "工作中的语言架构师!",
+  "授权语言工程。",
+  "在这里创建语言链接。",
+  "创建，连接，交谈。",
+  "智能连接，更智能的对话。",
+  "为了智能而牵线搭桥。",
+  "释放语言模型。",
+  "您的文本生成中心。",
+  "非常巧妙!",
+  "构建语言迷宫。",
+  "看图连点, 创建语言。",
+  "编制交互式语言。",
+  "创造，创新，沟通。",
+  "交谈的催化剂引擎。",
+  "语言连接大师。",
+  "在此处培育NLP节点。",
+  "解锁对话制图。",
+  "设计，开发，对话。",
 ];
 
 /**
@@ -406,4 +404,4 @@ export const NOUNS: string[] = [
  * @constant
  *
  */
-export const USER_PROJECTS_HEADER = "My Collection";
+export const USER_PROJECTS_HEADER = "我的收藏";

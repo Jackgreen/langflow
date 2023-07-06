@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+// @ts-ignore
 import { ReactComponent as AirbyteSVG } from "./airbyte.svg";
 
 export const AirbyteIcon = forwardRef<

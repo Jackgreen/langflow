@@ -121,7 +121,7 @@ export default function CodeAreaModal({
             }}
             type="submit"
           >
-            Check & Save
+            检查并保存
           </Button>
         </DialogFooter>
       </DialogContent>

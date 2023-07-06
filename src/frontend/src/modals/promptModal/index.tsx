@@ -83,7 +83,7 @@ export default function PromptAreaModal({
                         as="h3"
                         className="text-lg font-medium dark:text-white leading-10 text-gray-900"
                       >
-                        Edit Prompt
+                        编辑Prompt
                       </Dialog.Title>
                     </div>
                   </div>
@@ -139,7 +139,7 @@ export default function PromptAreaModal({
                           });
                       }}
                     >
-                      Check & Save
+                      检查并保存
                     </button>
                   </div>
                 </div>
