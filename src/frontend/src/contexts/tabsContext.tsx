@@ -269,7 +269,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
     // simulate a click on the link element to trigger the download
     link.click();
     setNoticeData({
-      title: "Warning: Critical data, JSON file may include API keys.",
+      title: "注意: JSON文件可能包含API秘钥。",
     });
   }
 

@@ -39,7 +39,7 @@ export default function FloatComponent({
         disabled={disabled}
         className={editNode ? "input-edit-node" : ""}
         placeholder={
-          editNode ? "Number 0 to 1" : "Type a number from zero to one"
+          editNode ? "Number 0 to 1" : "输入0到1之间的数字"
         }
         onChange={(event) => {
           onChange(event.target.value);
