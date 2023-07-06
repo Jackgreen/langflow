@@ -110,7 +110,7 @@ export default function InputFileComponent({
                 (disabled ? " bg-gray-200" : "")
           }
         >
-          {myValue !== "" ? myValue : "No file"}
+          {myValue !== "" ? myValue : "请选择文件"}
         </span>
         <button onClick={handleButtonClick}>
           {!editNode && !loading && (

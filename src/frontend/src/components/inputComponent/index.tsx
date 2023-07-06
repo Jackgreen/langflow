@@ -55,7 +55,7 @@ export default function InputComponent({
             : "ring-offset-gray-200" + INPUT_STYLE,
           password && editNode ? "pr-8" : "pr-3"
         )}
-        placeholder={password && editNode ? "Key" : "Type something..."}
+        placeholder={password && editNode ? "Key" : "输入..."}
         onChange={(e) => {
           setMyValue(e.target.value);
           onChange(e.target.value);
