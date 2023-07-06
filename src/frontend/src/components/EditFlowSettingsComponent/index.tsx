@@ -1,17 +1,14 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+import React, { useState, ChangeEvent } from "react";
 import { Textarea } from "../../components/ui/textarea";
-import { readFlowsFromDatabase } from "../../controllers/API";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
 
 type InputProps = {
   name: string | null;
   description: string | null;
   maxLength?: number;
-  flows: Array<{ id: string; name: string; description: string }>;
+  flows: Array<{ id: string; name: string }>;
   tabId: string;
-  invalidName: boolean;
-  setInvalidName: (invalidName: boolean) => void;
   setName: (name: string) => void;
   setDescription: (description: string) => void;
   updateFlow: (flow: { id: string; name: string }) => void;
@@ -19,8 +16,6 @@ type InputProps = {
 
 export const EditFlowSettings: React.FC<InputProps> = ({
   name,
-  invalidName,
-  setInvalidName,
   description,
   maxLength = 50,
   flows,
@@ -30,14 +25,6 @@ export const EditFlowSettings: React.FC<InputProps> = ({
   updateFlow,
 }) => {
   const [isMaxLength, setIsMaxLength] = useState(false);
-  const nameLists = useRef([]);
-  useEffect(() => {
-    readFlowsFromDatabase().then((flows) => {
-      flows.forEach((flow) => {
-        nameLists.current.push(flow.name);
-      });
-    });
-  }, []);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -46,38 +33,27 @@ export const EditFlowSettings: React.FC<InputProps> = ({
     } else {
       setIsMaxLength(false);
     }
-    if (!nameLists.current.includes(value)) {
-      setInvalidName(false);
-    } else {
-      setInvalidName(true);
-    }
+
     setName(value);
   };
 
-  const [desc, setDesc] = useState(
-    flows.find((f) => f.id === tabId).description
-  );
-
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    flows.find((f) => f.id === tabId).description = event.target.value;
-    setDesc(flows.find((f) => f.id === tabId).description);
     setDescription(event.target.value);
   };
 
   return (
     <>
       <Label>
-        <div className="edit-flow-arrangement">
-          <span className="font-medium">Name</span>{" "}
+        <div className="flex justify-between">
+          <span className="font-medium">名称</span>{" "}
           {isMaxLength && (
-            <span className="edit-flow-span">Character limit reached</span>
-          )}
-          {invalidName && (
-            <span className="edit-flow-span">Name already in use</span>
+            <span className="text-red-500 animate-pulse ml-10">
+              Character limit reached
+            </span>
           )}
         </div>
         <Input
-          className="nopan nodrag noundo nocopy mt-2 font-normal"
+          className="mt-2 font-normal"
           onChange={handleNameChange}
           type="text"
           name="name"
@@ -88,17 +64,14 @@ export const EditFlowSettings: React.FC<InputProps> = ({
         />
       </Label>
       <Label>
-        <div className="edit-flow-arrangement mt-3">
-          <span className="font-medium ">Description (optional)</span>
-        </div>
-
+        <span className="font-medium">描述 (可选)</span>
         <Textarea
           name="description"
           id="description"
           onChange={handleDescriptionChange}
-          value={desc}
+          value={description ?? ""}
           placeholder="Flow description"
-          className="mt-2 max-h-[100px] font-normal"
+          className="max-h-[100px] mt-2 font-normal"
           rows={3}
         />
       </Label>

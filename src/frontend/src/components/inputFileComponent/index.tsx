@@ -106,7 +106,7 @@ export default function InputFileComponent({
               : "input-dialog primary-input text-muted-foreground"
           }
         >
-          {myValue !== "" ? myValue : "No file"}
+          {myValue !== "" ? myValue : "请选择文件"}
         </span>
         <button onClick={handleButtonClick}>
           {!editNode && !loading && (

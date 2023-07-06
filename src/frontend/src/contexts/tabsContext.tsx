@@ -533,7 +533,7 @@ export function TabsProvider({ children }: { children: ReactNode }) {
 
   const createNewFlow = (flowData, flow) => ({
     description: flowData.description,
-    name: flow?.name ?? getRandomName(),
+    name: flow?.name ?? "项目名称",
     data: flowData.data,
     id: "",
   });

@@ -1,26 +1,22 @@
 import { useContext, useEffect, useState } from "react";
-import { Button } from "../../components/ui/button";
-import { alertContext } from "../../contexts/alertContext";
+import { GithubIcon, Users2, GitFork } from "lucide-react";
 import { TabsContext } from "../../contexts/tabsContext";
+import { alertContext } from "../../contexts/alertContext";
+import { Button } from "../../components/ui/button";
 
-import { useNavigate } from "react-router-dom";
-import { CardComponent } from "../../components/cardComponent";
-import IconComponent from "../../components/genericIconComponent";
 import { getExamples } from "../../controllers/API";
 import { FlowType } from "../../types/flow";
+import { CardComponent } from "../../components/cardComponent";
+import { useNavigate } from "react-router-dom";
 export default function CommunityPage() {
   const { flows, setTabId, downloadFlows, uploadFlows, addFlow } =
     useContext(TabsContext);
-
-  // set null id
   useEffect(() => {
     setTabId("");
   }, []);
   const { setErrorData } = useContext(alertContext);
   const [loadingExamples, setLoadingExamples] = useState(false);
   const [examples, setExamples] = useState<FlowType[]>([]);
-
-  // Show community examples on screen
   function handleExamples() {
     setLoadingExamples(true);
     getExamples()
@@ -37,39 +33,33 @@ export default function CommunityPage() {
   }
   const navigate = useNavigate();
 
-  // Show community examples on page start
   useEffect(() => {
     handleExamples();
   }, []);
   return (
-    <div className="community-page-arrangement">
-      <div className="community-page-nav-arrangement">
-        <span className="community-page-nav-title">
-          <IconComponent name="Users2" className="w-6" />
-          Community Examples
+    <div className="w-full h-full flex overflow-auto flex-col bg-muted px-16">
+      <div className="w-full flex justify-between py-12 pb-2 px-6">
+        <span className="text-2xl flex items-center justify-center gap-2 font-semibold">
+          <Users2 className="w-6" />
+          社区示例
         </span>
-        <div className="community-page-nav-button">
+        <div className="flex gap-2">
           <a
             href="https://github.com/logspace-ai/langflow_examples"
             target="_blank"
             rel="noreferrer"
           >
             <Button variant="primary">
-              <IconComponent
-                name="GithubIcon"
-                className="main-page-nav-button"
-              />
-              Add Your Example
+              <GithubIcon className="w-4 mr-2" />
+              添加示例
             </Button>
           </a>
         </div>
       </div>
-      <span className="community-page-description-text">
-        Discover and learn from shared examples by the Langflow community. We
-        welcome new example contributions that can help our community explore
-        new and powerful features.
+      <span className="flex pb-8 px-6 w-[70%] text-muted-foreground">
+         发现并学习社区的共享示例。欢迎贡献帮助我们的社区探索新的强大功能的示例。
       </span>
-      <div className="community-pages-flows-panel">
+      <div className="w-full p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {!loadingExamples &&
           examples.map((flow, idx) => (
             <CardComponent
@@ -87,10 +77,7 @@ export default function CommunityPage() {
                     });
                   }}
                 >
-                  <IconComponent
-                    name="GitFork"
-                    className="main-page-nav-button"
-                  />
+                  <GitFork className="w-4 mr-2" />
                   Fork Example
                 </Button>
               }

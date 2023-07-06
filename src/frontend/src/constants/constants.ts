@@ -1,90 +1,19 @@
-// src/constants/constants.ts
+// src/constants.tsx
 
-import { languageMap } from "../types/components";
-
-/**
- * invalid characters for flow name
- * @constant
- */
-export const INVALID_CHARACTERS = [
-  " ",
-  ",",
-  ".",
-  ":",
-  ";",
-  "!",
-  "?",
-  "/",
-  "\\",
-  "(",
-  ")",
-  "[",
-  "]",
-  "\n",
-];
-
-/**
- * regex to highlight the variables in the text
- * @constant
- */
-
-export const regexHighlight = /\{([^}]+)\}/g;
-
-export const programmingLanguages: languageMap = {
-  javascript: ".js",
-  python: ".py",
-  java: ".java",
-  c: ".c",
-  cpp: ".cpp",
-  "c++": ".cpp",
-  "c#": ".cs",
-  ruby: ".rb",
-  php: ".php",
-  swift: ".swift",
-  "objective-c": ".m",
-  kotlin: ".kt",
-  typescript: ".ts",
-  go: ".go",
-  perl: ".pl",
-  rust: ".rs",
-  scala: ".scala",
-  haskell: ".hs",
-  lua: ".lua",
-  shell: ".sh",
-  sql: ".sql",
-  html: ".html",
-  css: ".css",
-  // add more file extensions here, make sure the key is same as language prop in CodeBlock.tsx component
-};
-/**
- * Number maximum of components to scroll on tooltips
- * @constant
- */
-export const MAX_LENGTH_TO_SCROLL_TOOLTIP = 200;
-
-/**
- * Number maximum of components to scroll on tooltips
- * @constant
- */
-export const MAX_WORDS_HIGHLIGHT = 79;
-
-/**
- * Limit of items before show scroll on fields modal
- * @constant
- */
-export const limitScrollFieldsModal = 10;
+import { FlowType } from "./types/flow";
+import { buildTweaks } from "./utils";
 
 /**
  * The base text for subtitle of Export Dialog (Toolbar)
  * @constant
  */
-export const EXPORT_DIALOG_SUBTITLE = "Export flow as JSON file.";
+export const EXPORT_DIALOG_SUBTITLE = "将工作流导出为JSON文件。";
 
 /**
  * The base text for subtitle of Flow Settings (Menubar)
  * @constant
  */
-export const SETTINGS_DIALOG_SUBTITLE = "Edit details about your project.";
+export const SETTINGS_DIALOG_SUBTITLE = "编辑项目的详情。";
 
 /**
  * The base text for subtitle of Code Dialog (Toolbar)
@@ -92,13 +21,6 @@ export const SETTINGS_DIALOG_SUBTITLE = "Edit details about your project.";
  */
 export const CODE_DIALOG_SUBTITLE =
   "Export your flow to use it with this code.";
-
-/**
- * The base text for subtitle of Chat Form
- * @constant
- */
-export const CHAT_FORM_DIALOG_SUBTITLE =
-  "Set up the input variables defined in prompt templates. Interact with agents and chains.";
 
 /**
  * The base text for subtitle of Edit Node Dialog
@@ -119,22 +41,93 @@ export const CODE_PROMPT_DIALOG_SUBTITLE =
  * @constant
  */
 export const PROMPT_DIALOG_SUBTITLE =
-  "Create your prompt. Prompts can help guide the behavior of a Language Model.";
-
-export const CHAT_CANNOT_OPEN_TITLE = "Chat Cannot Open";
-
-export const CHAT_CANNOT_OPEN_DESCRIPTION = "This is not a chat flow.";
-
-export const FLOW_NOT_BUILT_TITLE = "Flow not built";
-
-export const FLOW_NOT_BUILT_DESCRIPTION =
-  "Please build the flow before chatting.";
+  "创建您的prompt。 Prompts可以帮助指导一个语言模型的行为。";
 
 /**
  * The base text for subtitle of Text Dialog
  * @constant
  */
-export const TEXT_DIALOG_SUBTITLE = "Edit your text.";
+export const TEXT_DIALOG_SUBTITLE = "编辑您的文本。";
+
+/**
+ * Function to get the python code for the API
+ * @param {string} flowId - The id of the flow
+ * @returns {string} - The python code
+ */
+export const getPythonApiCode = (flow: FlowType): string => {
+  const flowId = flow.id;
+
+  // create a dictionary of node ids and the values is an empty dictionary
+  // flow.data.nodes.forEach((node) => {
+  //   node.data.id
+  // }
+  const tweaks = buildTweaks(flow);
+  return `import requests
+
+BASE_API_URL = "${window.location.protocol}//${
+    window.location.host
+  }/api/v1/process"
+FLOW_ID = "${flowId}"
+# You can tweak the flow by adding a tweaks dictionary
+# e.g {"OpenAI-XXXXX": {"model_name": "gpt-4"}}
+TWEAKS = ${JSON.stringify(tweaks, null, 2)}
+
+def run_flow(message: str, flow_id: str, tweaks: dict = None) -> dict:
+    """
+    Run a flow with a given message and optional tweaks.
+
+    :param message: The message to send to the flow
+    :param flow_id: The ID of the flow to run
+    :param tweaks: Optional tweaks to customize the flow
+    :return: The JSON response from the flow
+    """
+    api_url = f"{BASE_API_URL}/{flow_id}"
+
+    payload = {"inputs": {"input": message}}
+
+    if tweaks:
+        payload["tweaks"] = tweaks
+
+    response = requests.post(api_url, json=payload)
+    return response.json()
+
+# Setup any tweaks you want to apply to the flow
+
+print(run_flow("Your message", flow_id=FLOW_ID, tweaks=TWEAKS))`;
+};
+/**
+ * Function to get the curl code for the API
+ * @param {string} flowId - The id of the flow
+ * @returns {string} - The curl code
+ */
+export const getCurlCode = (flow: FlowType): string => {
+  const flowId = flow.id;
+  const tweaks = buildTweaks(flow);
+  return `curl -X POST \\
+  ${window.location.protocol}//${
+    window.location.host
+  }/api/v1/process/${flowId} \\
+  -H 'Content-Type: application/json' \\
+  -d '{"inputs": {"input": message}, "tweaks": ${JSON.stringify(
+    tweaks,
+    null,
+    2
+  )}}'`;
+};
+/**
+ * Function to get the python code for the API
+ * @param {string} flowName - The name of the flow
+ * @returns {string} - The python code
+ */
+export const getPythonCode = (flow: FlowType): string => {
+  const flowName = flow.name;
+  const tweaks = buildTweaks(flow);
+  return `from langflow import load_flow_from_json
+TWEAKS = ${JSON.stringify(tweaks, null, 2)}
+flow = load_flow_from_json("${flowName}.json", tweaks=TWEAKS)
+# Now you can use it like any chain
+flow("Hey, have you heard of LangFlow?")`;
+};
 
 /**
  * The base text for subtitle of Import Dialog
@@ -144,61 +137,49 @@ export const IMPORT_DIALOG_SUBTITLE =
   "Upload a JSON file or select from the available community examples.";
 
 /**
- * The text that shows when a tooltip is empty
- * @constant
- */
-export const TOOLTIP_EMPTY = "No compatible components found.";
-
-/**
  * The base text for subtitle of code dialog
  * @constant
  */
 export const EXPORT_CODE_DIALOG =
-  "Generate the code to integrate your flow into an external application.";
+  "生成代码用来将流集成到外部应用程序中。";
 
 /**
  * The base text for subtitle of code dialog
  * @constant
  */
-export const COLUMN_DIV_STYLE =
-  " w-full h-full flex overflow-auto flex-col bg-muted px-16 ";
-
-export const NAV_DISPLAY_STYLE =
-  " w-full flex justify-between py-12 pb-2 px-6 ";
+export const INPUT_STYLE =
+  " focus:ring-1 focus:ring-offset-1 focus:ring-ring focus:outline-none ";
 
 /**
- * The base text for subtitle of code dialog
+ * Default description for the flow
  * @constant
  */
 export const DESCRIPTIONS: string[] = [
-  "Chain the Words, Master Language!",
-  "Language Architect at Work!",
-  "Empowering Language Engineering.",
-  "Craft Language Connections Here.",
-  "Create, Connect, Converse.",
-  "Smart Chains, Smarter Conversations.",
-  "Bridging Prompts for Brilliance.",
-  "Language Models, Unleashed.",
-  "Your Hub for Text Generation.",
-  "Promptly Ingenious!",
-  "Building Linguistic Labyrinths.",
-  "Langflow: Create, Chain, Communicate.",
-  "Connect the Dots, Craft Language.",
-  "Interactive Language Weaving.",
-  "Generate, Innovate, Communicate.",
-  "Conversation Catalyst Engine.",
-  "Language Chainlink Master.",
-  "Design Dialogues with Langflow.",
-  "Nurture NLP Nodes Here.",
-  "Conversational Cartography Unlocked.",
-  "Design, Develop, Dialogize.",
+  "把单词串起来，掌握语言!",
+  "工作中的语言架构师!",
+  "授权语言工程。",
+  "在这里创建语言链接。",
+  "创建，连接，交谈。",
+  "智能连接，更智能的对话。",
+  "为了智能而牵线搭桥。",
+  "释放语言模型。",
+  "您的文本生成中心。",
+  "非常巧妙!",
+  "构建语言迷宫。",
+  "看图连点, 创建语言。",
+  "编制交互式语言。",
+  "创造，创新，沟通。",
+  "交谈的催化剂引擎。",
+  "语言连接大师。",
+  "在此处培育NLP节点。",
+  "解锁对话制图。",
+  "设计，开发，对话。",
 ];
-export const BUTTON_DIV_STYLE =
-  " flex gap-2 focus:ring-1 focus:ring-offset-1 focus:ring-ring focus:outline-none ";
 
 /**
- * The base text for subtitle of code dialog
+ * Adjectives for the name of the flow
  * @constant
+ *
  */
 export const ADJECTIVES: string[] = [
   "admiring",
@@ -266,49 +247,8 @@ export const ADJECTIVES: string[] = [
   "thirsty",
   "tiny",
   "trusting",
-  "bubbly",
-  "charming",
-  "cheerful",
-  "comical",
-  "dazzling",
-  "delighted",
-  "dynamic",
-  "effervescent",
-  "enthusiastic",
-  "exuberant",
-  "fluffy",
-  "friendly",
-  "funky",
-  "giddy",
-  "giggly",
-  "gleeful",
-  "goofy",
-  "graceful",
-  "grinning",
-  "hilarious",
-  "inquisitive",
-  "joyous",
-  "jubilant",
-  "lively",
-  "mirthful",
-  "mischievous",
-  "optimistic",
-  "peppy",
-  "perky",
-  "playful",
-  "quirky",
-  "radiant",
-  "sassy",
-  "silly",
-  "spirited",
-  "sprightly",
-  "twinkly",
-  "upbeat",
-  "vibrant",
-  "witty",
-  "zany",
-  "zealous",
 ];
+
 /**
  * Nouns for the name of the flow
  * @constant
@@ -457,38 +397,6 @@ export const NOUNS: string[] = [
   "wright",
   "yalow",
   "yonath",
-  "coulomb",
-  "degrasse",
-  "dewey",
-  "edison",
-  "eratosthenes",
-  "faraday",
-  "galton",
-  "gauss",
-  "herschel",
-  "hubble",
-  "joule",
-  "kaku",
-  "kepler",
-  "khayyam",
-  "lavoisier",
-  "maxwell",
-  "mendel",
-  "mendeleev",
-  "ohm",
-  "pascal",
-  "planck",
-  "riemann",
-  "schrodinger",
-  "sagan",
-  "tesla",
-  "tyson",
-  "volta",
-  "watt",
-  "weber",
-  "wien",
-  "zoBell",
-  "zuse",
 ];
 
 /**
@@ -496,15 +404,4 @@ export const NOUNS: string[] = [
  * @constant
  *
  */
-export const USER_PROJECTS_HEADER = "My Collection";
-
-/**
- * URLs excluded from error retries.
- * @constant
- *
- */
-export const URL_EXCLUDED_FROM_ERROR_RETRIES = [
-  "/api/v1/validate/code",
-  "/api/v1/custom_component",
-  "/api/v1/validate/prompt",
-];
+export const USER_PROJECTS_HEADER = "我的收藏";
