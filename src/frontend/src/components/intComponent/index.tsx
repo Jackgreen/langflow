@@ -76,7 +76,7 @@ export default function IntComponent({
               INPUT_STYLE +
               (disabled ? " bg-gray-200 dark:bg-gray-700" : "")
         }
-        placeholder={editNode ? "Integer number" : "Type a integer number"}
+        placeholder={editNode ? "Integer number" : "输入一个整数"}
         onChange={(e) => {
           setMyValue(e.target.value);
           onChange(e.target.value);
