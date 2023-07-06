@@ -42,7 +42,7 @@ export default function FlowSettingsModal() {
     savedFlow.name = name;
     savedFlow.description = description;
     saveFlow(savedFlow);
-    setSuccessData({ title: "Changes saved successfully" });
+    setSuccessData({ title: "保存成功" });
     closePopUp();
   }
   return (
