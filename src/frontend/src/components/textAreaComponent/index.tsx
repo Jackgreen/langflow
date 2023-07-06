@@ -40,8 +40,8 @@ export default function TextAreaComponent({
             openPopUp(
               <GenericModal
                 type={TypeModal.TEXT}
-                buttonText="Finishing Editing"
-                modalTitle="Edit Text"
+                buttonText="完成"
+                modalTitle="编辑文本"
                 value={myValue}
                 setValue={(t: string) => {
                   setMyValue(t);
@@ -58,15 +58,15 @@ export default function TextAreaComponent({
                 (disabled ? " bg-gray-200" : "")
           }
         >
-          {myValue !== "" ? myValue : "Type something..."}
+          {myValue !== "" ? myValue : "输入..."}
         </span>
         <button
           onClick={() => {
             openPopUp(
               <GenericModal
                 type={TypeModal.TEXT}
-                buttonText="Finishing Editing"
-                modalTitle="Edit Text"
+                buttonText="完成"
+                modalTitle="编辑文本"
                 value={myValue}
                 setValue={(t: string) => {
                   setMyValue(t);

@@ -39,7 +39,7 @@ export default function InputListComponent({
                   (disabled ? " bg-gray-200" : "") +
                   "focus:placeholder-transparent"
             }
-            placeholder="Type something..."
+            placeholder="输入..."
             onChange={(e) => {
               setInputList((old) => {
                 let newInputList = _.cloneDeep(old);

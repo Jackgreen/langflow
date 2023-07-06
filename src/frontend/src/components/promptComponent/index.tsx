@@ -38,8 +38,8 @@ export default function PromptAreaComponent({
               <GenericModal
                 type={TypeModal.PROMPT}
                 value={myValue}
-                buttonText="Check & Save"
-                modalTitle="Edit Prompt"
+                buttonText="检查并保存"
+                modalTitle="编辑Prompt"
                 setValue={(t: string) => {
                   setMyValue(t);
                   onChange(t);
@@ -55,7 +55,7 @@ export default function PromptAreaComponent({
                 (disabled ? " bg-gray-200" : "")
           }
         >
-          {myValue !== "" ? myValue : "Type your prompt here"}
+          {myValue !== "" ? myValue : "输入您的prompt"}
         </span>
         <button
           onClick={() => {
@@ -63,8 +63,8 @@ export default function PromptAreaComponent({
               <GenericModal
                 type={TypeModal.PROMPT}
                 value={myValue}
-                buttonText="Check & Save"
-                modalTitle="Edit Prompt"
+                buttonText="检查并保存"
+                modalTitle="编辑Prompt"
                 setValue={(t: string) => {
                   setMyValue(t);
                   onChange(t);

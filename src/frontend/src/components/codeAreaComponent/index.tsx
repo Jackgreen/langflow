@@ -53,7 +53,7 @@ export default function CodeAreaComponent({
                 (disabled ? " bg-gray-200" : "")
           }
         >
-          {myValue !== "" ? myValue : "Type something..."}
+          {myValue !== "" ? myValue : "输入..."}
         </span>
         <button
           onClick={() => {

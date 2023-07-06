@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+// @ts-ignore
 import { ReactComponent as AnthropicSVG } from "./anthropic_box.svg";
 
 export const AnthropicIcon = forwardRef<

@@ -83,7 +83,7 @@ export default function PromptAreaModal({
                         as="h3"
                         className="text-lg font-medium dark:text-white leading-10 text-gray-900"
                       >
-                        Edit Prompt
+                        编辑Prompt
                       </Dialog.Title>
                     </div>
                   </div>
@@ -115,31 +115,31 @@ export default function PromptAreaModal({
                               if (inputVariables.length === 0) {
                                 setErrorData({
                                   title:
-                                    "The template you are attempting to use does not contain any variables for data entry.",
+                                    "您尝试使用的模板不包含任何用于数据输入的变量。",
                                 });
                               } else {
                                 setSuccessData({
-                                  title: "Prompt is ready",
+                                  title: "Prompt博奥村成功",
                                 });
                                 setModalOpen(false);
                                 setValue(myValue);
                               }
                             } else {
                               setErrorData({
-                                title: "Something went wrong, please try again",
+                                title: "内部错误，请稍后重试",
                               });
                             }
                           })
                           .catch((error) => {
                             return setErrorData({
                               title:
-                                "There is something wrong with this prompt, please review it",
+                                "这个prompt格式错误, 请检查",
                               list: [error.response.data.detail],
                             });
                           });
                       }}
                     >
-                      Check & Save
+                      检查并保存
                     </button>
                   </div>
                 </div>

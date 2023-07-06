@@ -64,7 +64,7 @@ export const MenuBar = ({ flows, tabId }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-44">
-            <DropdownMenuLabel>Options</DropdownMenuLabel>
+            <DropdownMenuLabel>菜单</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
                 handleAddFlow();
@@ -72,7 +72,7 @@ export const MenuBar = ({ flows, tabId }) => {
               className="cursor-pointer"
             >
               <Plus className="w-4 h-4 mr-2" />
-              New
+              新建
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -81,7 +81,7 @@ export const MenuBar = ({ flows, tabId }) => {
               className="cursor-pointer"
             >
               <Settings2 className="w-4 h-4 mr-2 dark:text-gray-300" />
-              Settings
+              设置
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -90,7 +90,7 @@ export const MenuBar = ({ flows, tabId }) => {
               className="cursor-pointer"
             >
               <Undo className="w-4 h-4 mr-2 dark:text-gray-300" />
-              Undo
+              上一步
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -99,7 +99,7 @@ export const MenuBar = ({ flows, tabId }) => {
               className="cursor-pointer"
             >
               <Redo className="w-4 h-4 mr-2 dark:text-gray-300" />
-              Redo
+              下一步
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {/* <DropdownMenuLabel>Projects</DropdownMenuLabel> */}

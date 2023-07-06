@@ -27,7 +27,7 @@ export default function HomePage() {
             }}
           >
             <Download className="w-4 mr-2" />
-            Download Collection
+            下载工作流
           </Button>
           <Button
             variant="primary"
@@ -36,7 +36,7 @@ export default function HomePage() {
             }}
           >
             <Upload className="w-4 mr-2" />
-            Upload Collection
+            上传工作流
           </Button>
           <Button
             variant="primary"
@@ -47,12 +47,12 @@ export default function HomePage() {
             }}
           >
             <Plus className="w-4 mr-2" />
-            New Project
+            新建项目
           </Button>
         </div>
       </div>
       <span className="flex pb-14 px-6 text-muted-foreground w-[60%]">
-        Manage your personal projects. Download or upload your collection.
+        管理您的项目。 下载或上传工作流。
       </span>
       <div className="w-full p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {flows.map((flow, idx) => (
@@ -68,7 +68,7 @@ export default function HomePage() {
                   className="whitespace-nowrap "
                 >
                   <ExternalLink className="w-4 mr-2" />
-                  Edit Flow
+                  编辑
                 </Button>
               </Link>
             }

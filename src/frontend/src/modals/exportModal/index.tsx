@@ -44,7 +44,7 @@ export default function ExportModal() {
       <DialogContent className="lg:max-w-[600px] h-[420px] ">
         <DialogHeader>
           <DialogTitle className="flex items-center">
-            <span className="pr-2">Export</span>
+            <span className="pr-2">导出</span>
             <Download
               className="h-6 w-6 text-gray-800 pl-1 dark:text-white"
               aria-hidden="true"
@@ -73,7 +73,7 @@ export default function ExportModal() {
             htmlFor="terms"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Save with my API keys
+            保存结果包含API秘钥
           </label>
         </div>
 
@@ -88,7 +88,7 @@ export default function ExportModal() {
             }}
             type="submit"
           >
-            Download Flow
+            下载工作流
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -86,7 +86,7 @@ export default function ApiModal({ flow }: { flow: FlowType }) {
       <DialogContent className="lg:max-w-[800px] sm:max-w-[600px] h-[580px]">
         <DialogHeader>
           <DialogTitle className="flex items-center">
-            <span className="pr-2">Code</span>
+            <span className="pr-2">代码</span>
             <Code2
               className="h-6 w-6 text-gray-800 pl-1 dark:text-white"
               aria-hidden="true"
@@ -112,7 +112,7 @@ export default function ApiModal({ flow }: { flow: FlowType }) {
                 onClick={copyToClipboard}
               >
                 {isCopied ? <Check size={18} /> : <Clipboard size={15} />}
-                {isCopied ? "Copied!" : "Copy code"}
+                {isCopied ? "已复制！" : "复制代码"}
               </button>
             </div>
           </div>

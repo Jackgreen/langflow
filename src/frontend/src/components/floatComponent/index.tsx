@@ -63,7 +63,7 @@ export default function FloatComponent({
               (disabled ? " bg-gray-200 dark:bg-gray-700" : "")
         }
         placeholder={
-          editNode ? "Number 0 to 1" : "Type a number from zero to one"
+          editNode ? "Number 0 to 1" : "输入0到1之间的数字"
         }
         onChange={(e) => {
           setMyValue(e.target.value);

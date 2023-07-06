@@ -27,7 +27,7 @@ export default function AlertDropdown({}: AlertDropdownType) {
       className="z-10 py-3 pb-4 px-2 rounded-md bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 shadow-lg focus:outline-none overflow-hidden w-[400px] h-[500px] flex flex-col"
     >
       <div className="flex pl-3 flex-row justify-between text-md font-medium text-gray-800 dark:text-gray-200">
-        Notifications
+        通知
         <div className="flex gap-3 pr-3 ">
           <button
             className="text-gray-800 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-500"
@@ -57,7 +57,7 @@ export default function AlertDropdown({}: AlertDropdownType) {
           ))
         ) : (
           <div className="h-full w-full pb-16 text-gray-500 dark:text-gray-500 flex justify-center items-center">
-            No new notifications
+            没有新的通知
           </div>
         )}
       </div>

@@ -45,7 +45,7 @@ export const EditFlowSettings: React.FC<InputProps> = ({
     <>
       <Label>
         <div className="flex justify-between">
-          <span className="font-medium">Name</span>{" "}
+          <span className="font-medium">名称</span>{" "}
           {isMaxLength && (
             <span className="text-red-500 animate-pulse ml-10">
               Character limit reached
@@ -64,7 +64,7 @@ export const EditFlowSettings: React.FC<InputProps> = ({
         />
       </Label>
       <Label>
-        <span className="font-medium">Description (optional)</span>
+        <span className="font-medium">描述 (可选)</span>
         <Textarea
           name="description"
           id="description"
