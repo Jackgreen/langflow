@@ -1,8 +1,10 @@
-from typing import Dict, List, Optional, Type
+from typing import Dict, List, Optional, Type, Any
 
 from langchain.prompts import PromptTemplate
+from langchain.prompts.base import DEFAULT_FORMATTER_MAPPING
 from pydantic import root_validator
 
+from langflow.interface.tools.custom import PoliceAnalyse
 from langflow.interface.utils import extract_input_variables_from_prompt
 
 
@@ -69,7 +71,7 @@ Human: {input}
     input_variables: List[str] = ["character", "series"]
 
 
-class CustomPrompt(PromptTemplate):
+class PoliceAnalysePrompt(PromptTemplate):
     template: str = ""
     rules: str = ""
     candidate: str = ""
@@ -90,7 +92,43 @@ class CustomPrompt(PromptTemplate):
         return values
 
 
+class PoliceAnalysePrompt2(PromptTemplate):
+    template: str = ""
+    rules: PoliceAnalyse = None
+    candidate: PoliceAnalyse = None
+
+    @root_validator(pre=False)
+    def build_template(cls, values):
+        # format_dict = {}
+        # for key in values.get("input_variables", []):
+        #     new_value = values.get(key, f"{{{key}}}")
+        #     if key not in ["rules", "candidate"]:
+        #         format_dict[key] = new_value
+        #
+        # values["template"] = values["template"].format(**format_dict)
+        #
+        # values["template"] = values["template"]
+        # values["input_variables"] = extract_input_variables_from_prompt(
+        #     values["template"]
+        # )
+        if "rules" in values["input_variables"]:
+            values["input_variables"].remove("rules")
+        if "candidate" in values["input_variables"]:
+            values["input_variables"].remove("candidate")
+        return values
+
+    def format(self, **kwargs: Any) -> str:
+        kwargs = self._merge_partial_and_user_variables(**kwargs)
+        text = kwargs["text"]
+        kwargs["rules"] = self.rules.gettext(text=text, type="rules")
+        kwargs["candidate"] = self.candidate.gettext(text=text, type="candidate")
+
+        result = DEFAULT_FORMATTER_MAPPING[self.template_format](self.template, **kwargs)
+        return result
+
+
 CUSTOM_PROMPTS: Dict[str, Type[BaseCustomPrompt]] = {
     "SeriesCharacterPrompt": SeriesCharacterPrompt,
-    "CustomPrompt": CustomPrompt
+    "PoliceAnalysePrompt": PoliceAnalysePrompt,
+    "PoliceAnalysePrompt2": PoliceAnalysePrompt2,
 }

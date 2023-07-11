@@ -119,7 +119,7 @@ export default function PromptAreaModal({
                                 });
                               } else {
                                 setSuccessData({
-                                  title: "Prompt博奥村成功",
+                                  title: "Prompt保存成功",
                                 });
                                 setModalOpen(false);
                                 setValue(myValue);
