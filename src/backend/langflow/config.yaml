@@ -75,8 +75,8 @@ prompts:
   - PromptTemplate
   - FewShotPromptTemplate
   - ZeroShotPrompt
-  - PoliceAnalysePrompt
-  - PoliceAnalysePrompt2
+  - CustomPrompt
+  - CustomPrompt2
 textsplitters:
   - CharacterTextSplitter
   - RecursiveCharacterTextSplitter
@@ -119,7 +119,8 @@ tools:
   - RequestsDeleteTool
   - WikipediaQueryRun
   - WolframAlphaQueryRun
-  - PoliceAnalyse
+  - InnerAlgo
+  - MappingTool
 utilities:
   - BingSearchAPIWrapper
   - GoogleSearchAPIWrapper
