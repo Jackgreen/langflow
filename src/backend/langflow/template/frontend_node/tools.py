@@ -139,3 +139,28 @@ class PythonFunctionNode(FrontendNode):
 
     def to_dict(self):
         return super().to_dict()
+
+
+class PoliceAnalyse(FrontendNode):
+    name: str = "PoliceAnalyse"
+    template: Template = Template(
+        type_name="PoliceAnalyse",
+        fields=[
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=True,
+                show=True,
+                value="rules",
+                options=["rules", "candidate"],
+                name="tool_type",
+                advanced=False,
+            ),
+        ],
+    )
+    description: str = "公安分析工具"
+    base_classes: list[str] = ["Tool"]
+
+    def to_dict(self):
+        return super().to_dict()
