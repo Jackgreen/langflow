@@ -1,9 +1,8 @@
 from typing import Any, List, Mapping, Optional
 
 import requests
-from langchain.callbacks.manager import CallbackManagerForLLMRun, AsyncCallbackManagerForLLMRun
-from langchain.llms.base import LLM, BaseLLM
-from langchain.schema import LLMResult
+from langchain.callbacks.manager import CallbackManagerForLLMRun
+from langchain.llms.base import LLM
 
 url_dict = {"sy": "http://10.105.16.24:8000"}
 
