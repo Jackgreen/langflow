@@ -119,10 +119,10 @@ class ZeroShotPromptNode(BasePromptFrontendNode):
         PromptFrontendNode.format_field(field, name)
 
 
-class CustomPromptNode(BasePromptFrontendNode):
-    name: str = "CustomPrompt"
+class PoliceAnalysePromptNode(BasePromptFrontendNode):
+    name: str = "PoliceAnalysePrompt"
     template: Template = Template(
-        type_name="CustomPrompt",
+        type_name="PoliceAnalysePrompt",
         fields=[
             TemplateField(
                 field_type="str",
@@ -136,6 +136,54 @@ class CustomPromptNode(BasePromptFrontendNode):
             ),
             TemplateField(
                 field_type="str",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="",
+                name="rules",
+            ),
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="文本内容：{text}分类规则：{rules}备选标签：{candidate}根据分类规则为文本内容选择正确的备选标签：",
+                name="template",
+            ),
+        ],
+    )
+    description: str = "Custom template."
+    base_classes: list[str] = ["BasePromptTemplate"]
+
+    def to_dict(self):
+        return super().to_dict()
+
+    @staticmethod
+    def format_field(field: TemplateField, name: Optional[str] = None) -> None:
+        PromptFrontendNode.format_field(field, name)
+
+
+class PoliceAnalysePromptNode2(BasePromptFrontendNode):
+    name: str = "PoliceAnalysePrompt2"
+    template: Template = Template(
+        type_name="PoliceAnalysePrompt2",
+        fields=[
+            TemplateField(
+                field_type="Tool",
+                required=True,
+                placeholder="",
+                is_list=False,
+                show=True,
+                multiline=True,
+                value="",
+                name="candidate",
+            ),
+            TemplateField(
+                field_type="Tool",
                 required=True,
                 placeholder="",
                 is_list=False,
