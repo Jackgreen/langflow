@@ -9,14 +9,15 @@ from langchain.agents.load_tools import (
 from langchain.tools.json.tool import JsonSpec
 
 from langflow.interface.importing.utils import import_class
-from langflow.interface.tools.custom import PythonFunctionTool, PythonFunction, PoliceAnalyse
+from langflow.interface.tools.custom import PythonFunctionTool, PythonFunction, InnerAlgo, MappingTool
 
 FILE_TOOLS = {"JsonSpec": JsonSpec}
 CUSTOM_TOOLS = {
     "Tool": Tool,
     "PythonFunctionTool": PythonFunctionTool,
     "PythonFunction": PythonFunction,
-    "PoliceAnalyse": PoliceAnalyse,
+    "InnerAlgo": InnerAlgo,
+    "MappingTool": MappingTool,
 }
 
 OTHER_TOOLS = {tool: import_class(f"langchain.tools.{tool}") for tool in tools.__all__}
