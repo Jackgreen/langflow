@@ -54,18 +54,21 @@ class PythonFunction(Function):
     code: str
 
 
-class PoliceAnalyse(BaseTool):
+class InnerAlgo(BaseTool):
     """Tool for making a POST request to an API endpoint."""
-    name = "police_analyse"
-    description = ""
+    name = "inner_algo"
+    description = "inner algo"
     tool_type: str
+
+    def ___init__(self, name: str, description: str, tool_type: str):
+        self.name = name
+        self.description = description
+        self.tool_type = tool_type
+        super().__init__(name=name, description=description)
 
     def gettext(self, text: str, type: str) -> str:
         # 解析结果
-        if type in ["rules"]:
-            result = "涉案金额大于等于3000为刑事案件，小于3000为治安案件"
-        else:
-            result = "刑事案件##诈骗案   治安案件,治安案件##诈骗"
+        result = "刑事案件##诈骗案   治安案件,治安案件##诈骗"
         return result
 
     def _run(
@@ -88,7 +91,48 @@ class PoliceAnalyse(BaseTool):
         """Run the tool asynchronously."""
         try:
             result = text + "hahaha"
-            self.type_result = "涉案金额大于等于3000为刑事案件，小于3000为治安案件"
+            return result
+        except Exception as e:
+            return repr(e)
+
+
+class MappingTool(BaseTool):
+    """Tool for making a POST request to an API endpoint."""
+    name = "mapping_tool"
+    description = "mapping tool"
+    tool_type: str
+
+    def ___init__(self, name: str, description: str, tool_type: str):
+        self.name = name
+        self.description = description
+        self.tool_type = tool_type
+        super().__init__(name=name, description=description)
+
+    def gettext(self, text: str, type: str) -> str:
+        # 解析结果
+        result = "涉案金额大于等于3000为刑事案件，小于3000为治安案件"
+        return result
+
+    def _run(
+            self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None
+    ) -> str:
+        """Run the tool."""
+        try:
+            # 读取文件内容
+            result = text + "hahaha"
+
+            return result
+        except Exception as e:
+            return repr(e)
+
+    async def _arun(
+            self,
+            text: str,
+            run_manager: Optional[AsyncCallbackManagerForToolRun] = None,
+    ) -> str:
+        """Run the tool asynchronously."""
+        try:
+            result = text + "hahaha"
             return result
         except Exception as e:
             return repr(e)

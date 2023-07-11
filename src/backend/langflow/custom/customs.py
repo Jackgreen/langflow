@@ -4,14 +4,15 @@ from langflow.template import frontend_node
 CUSTOM_NODES = {
     "prompts": {
         "ZeroShotPrompt": frontend_node.prompts.ZeroShotPromptNode(),
-        "CustomPrompt": frontend_node.prompts.PoliceAnalysePromptNode(),
-        "CustomPrompt2": frontend_node.prompts.PoliceAnalysePromptNode2(),
+        "CustomPrompt": frontend_node.prompts.CustomPromptNode(),
+        "CustomPrompt2": frontend_node.prompts.CustomPromptNode2(),
     },
     "tools": {
         "PythonFunctionTool": frontend_node.tools.PythonFunctionToolNode(),
         "PythonFunction": frontend_node.tools.PythonFunctionNode(),
         "Tool": frontend_node.tools.ToolNode(),
-        "PoliceAnalyse": frontend_node.tools.PoliceAnalyse(),
+        "InnerAlgo": frontend_node.tools.InnerAlgo(),
+        "MappingTool": frontend_node.tools.MappingTool(),
     },
     "agents": {
         "JsonAgent": frontend_node.agents.JsonAgentNode(),

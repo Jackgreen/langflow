@@ -4,7 +4,7 @@ from langchain.prompts import PromptTemplate
 from langchain.prompts.base import DEFAULT_FORMATTER_MAPPING
 from pydantic import root_validator
 
-from langflow.interface.tools.custom import PoliceAnalyse
+from langflow.interface.tools.custom import InnerAlgo,MappingTool
 from langflow.interface.utils import extract_input_variables_from_prompt
 
 
@@ -71,10 +71,10 @@ Human: {input}
     input_variables: List[str] = ["character", "series"]
 
 
-class PoliceAnalysePrompt(PromptTemplate):
+class CustomPrompt(PromptTemplate):
     template: str = ""
-    rules: str = ""
-    candidate: str = ""
+    mappingTools: str = ""
+    innerAlgo: str = ""
 
     @root_validator(pre=False)
     def build_template(cls, values):
@@ -92,10 +92,10 @@ class PoliceAnalysePrompt(PromptTemplate):
         return values
 
 
-class PoliceAnalysePrompt2(PromptTemplate):
+class CustomPrompt2(PromptTemplate):
     template: str = ""
-    rules: PoliceAnalyse = None
-    candidate: PoliceAnalyse = None
+    mappingTools: MappingTool = None
+    innerAlgo: InnerAlgo = None
 
     @root_validator(pre=False)
     def build_template(cls, values):
@@ -111,17 +111,17 @@ class PoliceAnalysePrompt2(PromptTemplate):
         # values["input_variables"] = extract_input_variables_from_prompt(
         #     values["template"]
         # )
-        if "rules" in values["input_variables"]:
-            values["input_variables"].remove("rules")
-        if "candidate" in values["input_variables"]:
-            values["input_variables"].remove("candidate")
+        if "mappingTools" in values["input_variables"]:
+            values["input_variables"].remove("mappingTools")
+        if "innerAlgo" in values["input_variables"]:
+            values["input_variables"].remove("innerAlgo")
         return values
 
     def format(self, **kwargs: Any) -> str:
         kwargs = self._merge_partial_and_user_variables(**kwargs)
         text = kwargs["text"]
-        kwargs["rules"] = self.rules.gettext(text=text, type="rules")
-        kwargs["candidate"] = self.candidate.gettext(text=text, type="candidate")
+        kwargs["mappingTools"] = self.mappingTools.gettext(text=text, type="mappingTools")
+        kwargs["innerAlgo"] = self.innerAlgo.gettext(text=text, type="innerAlgo")
 
         result = DEFAULT_FORMATTER_MAPPING[self.template_format](self.template, **kwargs)
         return result
@@ -129,6 +129,6 @@ class PoliceAnalysePrompt2(PromptTemplate):
 
 CUSTOM_PROMPTS: Dict[str, Type[BaseCustomPrompt]] = {
     "SeriesCharacterPrompt": SeriesCharacterPrompt,
-    "PoliceAnalysePrompt": PoliceAnalysePrompt,
-    "PoliceAnalysePrompt2": PoliceAnalysePrompt2,
+    "CustomPrompt": CustomPrompt,
+    "CustomPrompt2": CustomPrompt2,
 }
