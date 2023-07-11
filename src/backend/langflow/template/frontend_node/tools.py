@@ -141,10 +141,10 @@ class PythonFunctionNode(FrontendNode):
         return super().to_dict()
 
 
-class PoliceAnalyse(FrontendNode):
-    name: str = "PoliceAnalyse"
+class InnerAlgo(FrontendNode):
+    name: str = "InnerAlgo"
     template: Template = Template(
-        type_name="PoliceAnalyse",
+        type_name="InnerAlgo",
         fields=[
             TemplateField(
                 field_type="str",
@@ -152,14 +152,39 @@ class PoliceAnalyse(FrontendNode):
                 placeholder="",
                 is_list=True,
                 show=True,
-                value="rules",
-                options=["rules", "candidate"],
+                value="police_label_classify",
+                options=["police_label_classify"],
                 name="tool_type",
                 advanced=False,
             ),
         ],
     )
-    description: str = "公安分析工具"
+    description: str = "实验室内部算法"
+    base_classes: list[str] = ["Tool"]
+
+    def to_dict(self):
+        return super().to_dict()
+
+
+class MappingTool(FrontendNode):
+    name: str = "MappingTool"
+    template: Template = Template(
+        type_name="MappingTool",
+        fields=[
+            TemplateField(
+                field_type="str",
+                required=True,
+                placeholder="",
+                is_list=True,
+                show=True,
+                value="police_rules",
+                options=["police_rules"],
+                name="tool_type",
+                advanced=False,
+            ),
+        ],
+    )
+    description: str = "map工具"
     base_classes: list[str] = ["Tool"]
 
     def to_dict(self):

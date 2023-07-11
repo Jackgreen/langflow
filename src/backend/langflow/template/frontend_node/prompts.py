@@ -119,10 +119,10 @@ class ZeroShotPromptNode(BasePromptFrontendNode):
         PromptFrontendNode.format_field(field, name)
 
 
-class PoliceAnalysePromptNode(BasePromptFrontendNode):
-    name: str = "PoliceAnalysePrompt"
+class CustomPromptNode(BasePromptFrontendNode):
+    name: str = "CustomPrompt"
     template: Template = Template(
-        type_name="PoliceAnalysePrompt",
+        type_name="CustomPrompt",
         fields=[
             TemplateField(
                 field_type="str",
@@ -132,7 +132,7 @@ class PoliceAnalysePromptNode(BasePromptFrontendNode):
                 show=True,
                 multiline=True,
                 value="",
-                name="candidate",
+                name="innerAlgo",
             ),
             TemplateField(
                 field_type="str",
@@ -142,7 +142,7 @@ class PoliceAnalysePromptNode(BasePromptFrontendNode):
                 show=True,
                 multiline=True,
                 value="",
-                name="rules",
+                name="mappingTools",
             ),
             TemplateField(
                 field_type="str",
@@ -151,12 +151,12 @@ class PoliceAnalysePromptNode(BasePromptFrontendNode):
                 is_list=False,
                 show=True,
                 multiline=True,
-                value="文本内容：{text}分类规则：{rules}备选标签：{candidate}根据分类规则为文本内容选择正确的备选标签：",
+                value="文本内容：{text}分类规则：{mappingTools}备选标签：{innerAlgo}根据分类规则为文本内容选择正确的备选标签：",
                 name="template",
             ),
         ],
     )
-    description: str = "Custom template."
+    description: str = "Custom prompt."
     base_classes: list[str] = ["BasePromptTemplate"]
 
     def to_dict(self):
@@ -167,10 +167,10 @@ class PoliceAnalysePromptNode(BasePromptFrontendNode):
         PromptFrontendNode.format_field(field, name)
 
 
-class PoliceAnalysePromptNode2(BasePromptFrontendNode):
-    name: str = "PoliceAnalysePrompt2"
+class CustomPromptNode2(BasePromptFrontendNode):
+    name: str = "CustomPrompt2"
     template: Template = Template(
-        type_name="PoliceAnalysePrompt2",
+        type_name="CustomPrompt2",
         fields=[
             TemplateField(
                 field_type="Tool",
@@ -180,7 +180,7 @@ class PoliceAnalysePromptNode2(BasePromptFrontendNode):
                 show=True,
                 multiline=True,
                 value="",
-                name="candidate",
+                name="innerAlgo",
             ),
             TemplateField(
                 field_type="Tool",
@@ -190,7 +190,7 @@ class PoliceAnalysePromptNode2(BasePromptFrontendNode):
                 show=True,
                 multiline=True,
                 value="",
-                name="rules",
+                name="mappingTools",
             ),
             TemplateField(
                 field_type="str",
@@ -199,12 +199,12 @@ class PoliceAnalysePromptNode2(BasePromptFrontendNode):
                 is_list=False,
                 show=True,
                 multiline=True,
-                value="文本内容：{text}分类规则：{rules}备选标签：{candidate}根据分类规则为文本内容选择正确的备选标签：",
+                value="文本内容：{text}分类规则：{mappingTools}备选标签：{innerAlgo}根据分类规则为文本内容选择正确的备选标签：",
                 name="template",
             ),
         ],
     )
-    description: str = "Custom template."
+    description: str = "Custom prompt."
     base_classes: list[str] = ["BasePromptTemplate"]
 
     def to_dict(self):
