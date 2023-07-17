@@ -94,7 +94,7 @@ def serve_on_jcloud():
 
 @app.command()
 def serve(
-    host: str = typer.Option("10.105.16.24", help="Host to bind the server to."),
+    host: str = typer.Option("10.105.20.27", help="Host to bind the server to."),
     workers: int = typer.Option(1, help="Number of worker processes."),
     timeout: int = typer.Option(60, help="Worker timeout in seconds."),
     port: int = typer.Option(7860, help="Port to listen on."),
