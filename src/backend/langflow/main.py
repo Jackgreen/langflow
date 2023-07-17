@@ -38,4 +38,4 @@ app = create_app()
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="10.105.16.24", port=7860)
+    uvicorn.run(app, host="10.105.20.27", port=7860)
