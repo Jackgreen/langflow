@@ -4,13 +4,13 @@ import requests
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.llms.base import LLM
 
-url_dict = {"sy": "http://10.105.16.24:8000"}
+url_dict = {"baichuan-chat13b": "http://10.105.16.23:8000","chatglm-chat6b":"http://10.105.16.23:2025"}
 
 
 class CustomLLM(LLM):
     temperature: float = 1
     top_p: float = 0.75
-    type: str = 'sy'
+    type: str = 'chatglm-chat13b'
 
     @property
     def _llm_type(self) -> str:
@@ -33,7 +33,8 @@ class CustomLLM(LLM):
         }
         message = {}
         try:
-            x = requests.post('http://10.105.16.24:8000', json=dt, verify=False, timeout=1000)
+            url = url_dict[self.type]
+            x = requests.post(url, json=dt, verify=False, timeout=1000)
             message = x.json()['response']
             return message
         except Exception as e:
