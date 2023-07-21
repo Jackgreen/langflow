@@ -37,7 +37,7 @@ class LLMFrontendNode(FrontendNode):
             field.show = True
         if field.name == "type":
             field.show = True
-            field.options = ["sy", "htf"]
+            field.options = ["baichuan-chat13b", "chatglm-chat6b"]
 
     @staticmethod
     def format_field(field: TemplateField, name: Optional[str] = None) -> None:

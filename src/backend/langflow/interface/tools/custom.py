@@ -1,5 +1,6 @@
 from typing import Callable, Optional
 
+import requests
 from langchain.callbacks.manager import CallbackManagerForToolRun, AsyncCallbackManagerForToolRun
 from langchain.tools import BaseTool
 
@@ -54,6 +55,21 @@ class PythonFunction(Function):
     code: str
 
 
+def get_inner_algo_result(text):
+    dt = {
+        "input": text
+    }
+    message = {}
+    try:
+        x = requests.post('http://10.105.16.23:2023/search', json=dt, verify=False, timeout=1000)
+        message = x.json()
+        return message
+    except Exception as e:
+        message = str(e)
+    finally:
+        return message
+
+
 class InnerAlgo(BaseTool):
     """Tool for making a POST request to an API endpoint."""
     name = "inner_algo"
@@ -68,8 +84,9 @@ class InnerAlgo(BaseTool):
 
     def gettext(self, text: str, type: str) -> str:
         # 解析结果
-        result = "刑事案件##诈骗案   治安案件,治安案件##诈骗"
-        return result
+        result = get_inner_algo_result(text)
+        labels = result['labels']
+        return "  ".join(labels)
 
     def _run(
             self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None
@@ -77,8 +94,7 @@ class InnerAlgo(BaseTool):
         """Run the tool."""
         try:
             # 读取文件内容
-            result = text + "hahaha"
-
+            result = get_inner_algo_result(text)
             return result
         except Exception as e:
             return repr(e)
@@ -96,6 +112,21 @@ class InnerAlgo(BaseTool):
             return repr(e)
 
 
+def get_mapping_tools_result(text):
+    dt = {
+        "input": text
+    }
+    message = {}
+    try:
+        x = requests.post('http://10.105.16.23:2024/search', json=dt, verify=False, timeout=1000)
+        message = x.json()
+        return message
+    except Exception as e:
+        message = str(e)
+    finally:
+        return message
+
+
 class MappingTool(BaseTool):
     """Tool for making a POST request to an API endpoint."""
     name = "mapping_tool"
@@ -110,8 +141,9 @@ class MappingTool(BaseTool):
 
     def gettext(self, text: str, type: str) -> str:
         # 解析结果
-        result = "涉案金额大于等于3000为刑事案件，小于3000为治安案件"
-        return result
+        algo_result = get_inner_algo_result(text)
+        result = get_mapping_tools_result(algo_result)
+        return result['result']
 
     def _run(
             self, text: str, run_manager: Optional[CallbackManagerForToolRun] = None
