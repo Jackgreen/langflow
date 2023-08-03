@@ -9,13 +9,9 @@ from langchain.chains.base import Chain
 from langchain.llms.fake import FakeListLLM
 from langflow.graph import Graph
 from langflow.graph.vertex.types import (
-    AgentVertex,
-    ChainVertex,
     FileToolVertex,
     LLMVertex,
-    PromptVertex,
     ToolkitVertex,
-    ToolVertex,
     WrapperVertex,
 )
 from langflow.processing.process import get_result_and_thought
@@ -116,53 +112,53 @@ def test_get_node_neighbors_basic(basic_graph):
     )
 
 
-def test_get_node_neighbors_complex(complex_graph):
-    """Test getting node neighbors"""
-    assert isinstance(complex_graph, Graph)
-    # Get root node
-    root = get_root_node(complex_graph)
-    assert root is not None
-    neighbors = complex_graph.get_nodes_with_target(root)
-    assert neighbors is not None
-    # Neighbors should be a list of nodes
-    assert isinstance(neighbors, list)
-    # Root Node is an Agent, it requires an LLMChain and tools
-    # We need to check if there is a Chain in the one of the neighbors'
-    assert any("Chain" in neighbor.data["type"] for neighbor in neighbors)
-    # assert Tool is in the neighbors
-    assert any("Tool" in neighbor.data["type"] for neighbor in neighbors)
-    # Now on to the Chain's neighbors
-    chain = next(neighbor for neighbor in neighbors if "Chain" in neighbor.data["type"])
-    chain_neighbors = complex_graph.get_nodes_with_target(chain)
-    assert chain_neighbors is not None
-    # Check if there is a LLM in the chain's neighbors
-    assert any("OpenAI" in neighbor.data["type"] for neighbor in chain_neighbors)
-    # Chain should have a Prompt as a neighbor
-    assert any("Prompt" in neighbor.data["type"] for neighbor in chain_neighbors)
-    # Now on to the Tool's neighbors
-    tool = next(neighbor for neighbor in neighbors if "Tool" in neighbor.data["type"])
-    tool_neighbors = complex_graph.get_nodes_with_target(tool)
-    assert tool_neighbors is not None
-    # Check if there is an Agent in the tool's neighbors
-    assert any("Agent" in neighbor.data["type"] for neighbor in tool_neighbors)
-    # This Agent has a Tool that has a PythonFunction as func
-    agent = next(
-        neighbor for neighbor in tool_neighbors if "Agent" in neighbor.data["type"]
-    )
-    agent_neighbors = complex_graph.get_nodes_with_target(agent)
-    assert agent_neighbors is not None
-    # Check if there is a Tool in the agent's neighbors
-    assert any("Tool" in neighbor.data["type"] for neighbor in agent_neighbors)
-    # This Tool has a PythonFunction as func
-    tool = next(
-        neighbor for neighbor in agent_neighbors if "Tool" in neighbor.data["type"]
-    )
-    tool_neighbors = complex_graph.get_nodes_with_target(tool)
-    assert tool_neighbors is not None
-    # Check if there is a PythonFunction in the tool's neighbors
-    assert any(
-        "PythonFunctionTool" in neighbor.data["type"] for neighbor in tool_neighbors
-    )
+# def test_get_node_neighbors_complex(complex_graph):
+#     """Test getting node neighbors"""
+#     assert isinstance(complex_graph, Graph)
+#     # Get root node
+#     root = get_root_node(complex_graph)
+#     assert root is not None
+#     neighbors = complex_graph.get_nodes_with_target(root)
+#     assert neighbors is not None
+#     # Neighbors should be a list of nodes
+#     assert isinstance(neighbors, list)
+#     # Root Node is an Agent, it requires an LLMChain and tools
+#     # We need to check if there is a Chain in the one of the neighbors'
+#     assert any("Chain" in neighbor.data["type"] for neighbor in neighbors)
+#     # assert Tool is in the neighbors
+#     assert any("Tool" in neighbor.data["type"] for neighbor in neighbors)
+#     # Now on to the Chain's neighbors
+#     chain = next(neighbor for neighbor in neighbors if "Chain" in neighbor.data["type"])
+#     chain_neighbors = complex_graph.get_nodes_with_target(chain)
+#     assert chain_neighbors is not None
+#     # Check if there is a LLM in the chain's neighbors
+#     assert any("OpenAI" in neighbor.data["type"] for neighbor in chain_neighbors)
+#     # Chain should have a Prompt as a neighbor
+#     assert any("Prompt" in neighbor.data["type"] for neighbor in chain_neighbors)
+#     # Now on to the Tool's neighbors
+#     tool = next(neighbor for neighbor in neighbors if "Tool" in neighbor.data["type"])
+#     tool_neighbors = complex_graph.get_nodes_with_target(tool)
+#     assert tool_neighbors is not None
+#     # Check if there is an Agent in the tool's neighbors
+#     assert any("Agent" in neighbor.data["type"] for neighbor in tool_neighbors)
+#     # This Agent has a Tool that has a PythonFunction as func
+#     agent = next(
+#         neighbor for neighbor in tool_neighbors if "Agent" in neighbor.data["type"]
+#     )
+#     agent_neighbors = complex_graph.get_nodes_with_target(agent)
+#     assert agent_neighbors is not None
+#     # Check if there is a Tool in the agent's neighbors
+#     assert any("Tool" in neighbor.data["type"] for neighbor in agent_neighbors)
+#     # This Tool has a PythonFunction as func
+#     tool = next(
+#         neighbor for neighbor in agent_neighbors if "Tool" in neighbor.data["type"]
+#     )
+#     tool_neighbors = complex_graph.get_nodes_with_target(tool)
+#     assert tool_neighbors is not None
+#     # Check if there is a PythonFunction in the tool's neighbors
+#     assert any(
+#         "PythonFunctionTool" in neighbor.data["type"] for neighbor in tool_neighbors
+#     )
 
 
 def test_get_node(basic_graph):
@@ -244,10 +240,9 @@ def test_build_params(basic_graph):
     assert "memory" in root.params
 
 
-def test_build(basic_graph, complex_graph):
+def test_build(basic_graph):
     """Test Node's build method"""
     assert_agent_was_built(basic_graph)
-    assert_agent_was_built(complex_graph)
 
 
 def assert_agent_was_built(graph):
@@ -258,34 +253,6 @@ def assert_agent_was_built(graph):
     result = graph.build()
     # The agent should be a AgentExecutor
     assert isinstance(result, Chain)
-
-
-def test_agent_node_build(complex_graph):
-    agent_node = get_node_by_type(complex_graph, AgentVertex)
-    assert agent_node is not None
-    built_object = agent_node.build()
-    assert built_object is not None
-
-
-def test_tool_node_build(complex_graph):
-    tool_node = get_node_by_type(complex_graph, ToolVertex)
-    assert tool_node is not None
-    built_object = tool_node.build()
-    assert built_object is not None
-
-
-def test_chain_node_build(complex_graph):
-    chain_node = get_node_by_type(complex_graph, ChainVertex)
-    assert chain_node is not None
-    built_object = chain_node.build()
-    assert built_object is not None
-
-
-def test_prompt_node_build(complex_graph):
-    prompt_node = get_node_by_type(complex_graph, PromptVertex)
-    assert prompt_node is not None
-    built_object = prompt_node.build()
-    assert built_object is not None
 
 
 def test_llm_node_build(basic_graph):

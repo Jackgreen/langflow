@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { alertContext } from "../../contexts/alertContext";
-import { FileComponentType } from "../../types/components";
 import { TabsContext } from "../../contexts/tabsContext";
-import { INPUT_STYLE } from "../../constants";
-import { FileSearch2 } from "lucide-react";
 import { uploadFile } from "../../controllers/API";
+import { FileComponentType } from "../../types/components";
+import IconComponent from "../genericIconComponent";
 
 export default function InputFileComponent({
   value,
@@ -19,6 +18,8 @@ export default function InputFileComponent({
   const [loading, setLoading] = useState(false);
   const { setErrorData } = useContext(alertContext);
   const { tabId } = useContext(TabsContext);
+
+  // Clear component state
   useEffect(() => {
     if (disabled) {
       setMyValue("");
@@ -65,12 +66,12 @@ export default function InputFileComponent({
             const { file_path } = data;
             console.log("File name:", file_path);
 
+            // sets the value that goes to the backend
+            onFileChange(file_path);
             // Update the state and callback with the name of the file
             // sets the value to the user
             setMyValue(file.name);
             onChange(file.name);
-            // sets the value that goes to the backend
-            onFileChange(file_path);
             setLoading(false);
           })
           .catch(() => {
@@ -93,31 +94,32 @@ export default function InputFileComponent({
   };
 
   return (
-    <div
-      className={
-        disabled ? "pointer-events-none cursor-not-allowed w-full" : "w-full"
-      }
-    >
-      <div className="w-full flex items-center gap-2">
+    <div className={disabled ? "input-component-div" : "w-full"}>
+      <div className="input-file-component">
         <span
           onClick={handleButtonClick}
           className={
             editNode
-              ? "truncate placeholder:text-center text-gray-500 block w-full pt-0.5 pb-0.5 form-input dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 rounded-md border-gray-300 shadow-sm sm:text-sm border-1" +
-                INPUT_STYLE
-              : "truncate block w-full text-gray-500 dark:text-gray-300 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 shadow-sm sm:text-sm" +
-                INPUT_STYLE +
-                (disabled ? " bg-gray-200" : "")
+              ? "input-edit-node input-dialog text-muted-foreground"
+              : disabled
+              ? "input-disable input-dialog primary-input"
+              : "input-dialog primary-input text-muted-foreground"
           }
         >
           {myValue !== "" ? myValue : "请选择文件"}
         </span>
         <button onClick={handleButtonClick}>
           {!editNode && !loading && (
-            <FileSearch2 className="w-6 h-6 hover:text-ring" />
+            <IconComponent
+              name="FileSearch2"
+              className={
+                "icons-parameters-comp" +
+                (disabled ? " text-ring " : " hover:text-accent-foreground")
+              }
+            />
           )}
           {!editNode && loading && (
-            <span className="loading loading-spinner loading-sm pl-3 h-8 pointer-events-none"></span>
+            <span className="loading loading-spinner loading-sm pointer-events-none h-8 pl-3"></span>
           )}
         </button>
       </div>

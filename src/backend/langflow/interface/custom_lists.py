@@ -10,8 +10,12 @@ from langchain import (
     text_splitter,
 )
 from langchain.agents import agent_toolkits
-from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
-from langchain.chat_models import ChatAnthropic
+from langchain.chat_models import (
+    AzureChatOpenAI,
+    ChatOpenAI,
+    ChatVertexAI,
+    ChatAnthropic,
+)
 
 from langflow.interface.agents.custom import CUSTOM_AGENTS
 from langflow.interface.chains.custom import CUSTOM_CHAINS
@@ -22,6 +26,7 @@ llm_type_to_cls_dict = llms.type_to_cls_dict
 llm_type_to_cls_dict["anthropic-chat"] = ChatAnthropic  # type: ignore
 llm_type_to_cls_dict["azure-chat"] = AzureChatOpenAI  # type: ignore
 llm_type_to_cls_dict["openai-chat"] = ChatOpenAI  # type: ignore
+llm_type_to_cls_dict["vertexai-chat"] = ChatVertexAI  # type: ignore
 
 # Toolkits
 toolkit_type_to_loader_dict: dict[str, Any] = {

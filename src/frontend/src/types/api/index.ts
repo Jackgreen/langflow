@@ -1,4 +1,4 @@
-import { Node, Edge, Viewport } from "reactflow";
+import { Edge, Node, Viewport } from "reactflow";
 //kind and class are just representative names to represent the actual structure of the object received by the API
 
 export type APIObjectType = { kind: APIKindType; [key: string]: APIKindType };
@@ -12,8 +12,14 @@ export type APIClassType = {
   description: string;
   template: APITemplateType;
   display_name: string;
-  [key: string]: Array<string> | string | APITemplateType;
+  input_types?: Array<string>;
+  output_types?: Array<string>;
+  beta?: boolean;
+  documentation: string;
+  error?: string;
+  [key: string]: Array<string> | string | APITemplateType | boolean;
 };
+
 export type TemplateVariableType = {
   type: string;
   required: boolean;
@@ -22,6 +28,7 @@ export type TemplateVariableType = {
   show: boolean;
   multiline?: boolean;
   value?: any;
+  input_types?: Array<string>;
   [key: string]: any;
 };
 export type sendAllProps = {
@@ -30,15 +37,18 @@ export type sendAllProps = {
   name: string;
   description: string;
   viewport: Viewport;
-  message: string;
+  inputs: any;
 
-  chatHistory: { message: string; isSend: boolean }[];
+  chatHistory: { message: string | object; isSend: boolean }[];
 };
 export type errorsTypeAPI = {
   function: { errors: Array<string> };
   imports: { errors: Array<string> };
 };
-export type PromptTypeAPI = { input_variables: Array<string> };
+export type PromptTypeAPI = {
+  input_variables: Array<string>;
+  frontend_node: APIClassType;
+};
 
 export type BuildStatusTypeAPI = {
   built: boolean;

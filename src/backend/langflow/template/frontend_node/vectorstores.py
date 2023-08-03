@@ -51,7 +51,7 @@ class VectorStoreFrontendNode(FrontendNode):
                 required=False,
                 show=True,
                 advanced=False,
-                value=True,
+                value=False,
                 display_name="Persist",
             )
             extra_fields.append(extra_field)
@@ -65,6 +65,7 @@ class VectorStoreFrontendNode(FrontendNode):
                 show=True,
                 advanced=True,
                 multiline=False,
+                password=True,
                 value="",
             )
             extra_field2 = TemplateField(
@@ -142,6 +143,7 @@ class VectorStoreFrontendNode(FrontendNode):
                 show=True,
                 advanced=True,
                 multiline=False,
+                password=True,
                 value="",
             )
             extra_fields.extend((extra_field, extra_field2, extra_field3, extra_field4))
@@ -200,7 +202,7 @@ class VectorStoreFrontendNode(FrontendNode):
                 self.template.add_field(field)
 
     def add_extra_base_classes(self) -> None:
-        self.base_classes.append("BaseRetriever")
+        self.base_classes.extend(("BaseRetriever", "VectorStoreRetriever"))
 
     @staticmethod
     def format_field(field: TemplateField, name: Optional[str] = None) -> None:
@@ -252,12 +254,12 @@ class VectorStoreFrontendNode(FrontendNode):
             # when instantiating the vectorstores
             field.name = "documents"
 
-            field.field_type = "TextSplitter"
+            field.field_type = "Document"
             field.display_name = "Documents"
             field.required = False
             field.show = True
             field.advanced = False
-
+            field.is_list = True
         elif "embedding" in field.name:
             # for backwards compatibility
             field.name = "embedding"

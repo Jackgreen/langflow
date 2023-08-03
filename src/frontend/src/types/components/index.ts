@@ -1,10 +1,5 @@
-import {
-  ComponentType,
-  ForwardRefExoticComponent,
-  ReactElement,
-  ReactNode,
-  SVGProps,
-} from "react";
+import { ReactElement, ReactNode } from "react";
+import { APIClassType } from "../api";
 import { NodeDataType } from "../flow/index";
 import { typesContextType } from "../typesContext";
 export type InputComponentType = {
@@ -12,7 +7,6 @@ export type InputComponentType = {
   disabled?: boolean;
   onChange: (value: string) => void;
   password: boolean;
-  disableCopyPaste?: boolean;
   editNode?: boolean;
   onChangePass?: (value: boolean | boolean) => void;
   showPass?: boolean;
@@ -28,10 +22,12 @@ export type DropDownComponentType = {
   options: string[];
   onSelect: (value: string) => void;
   editNode?: boolean;
+  apiModal?: boolean;
   numberOfOptions?: number;
 };
 export type ParameterComponentType = {
   data: NodeDataType;
+  setData: (value: NodeDataType) => void;
   title: string;
   id: string;
   color: string;
@@ -41,6 +37,8 @@ export type ParameterComponentType = {
   name?: string;
   tooltipTitle: string;
   dataContext?: typesContextType;
+  optionalHandle?: Array<String>;
+  info?: string;
 };
 export type InputListComponentType = {
   value: string[];
@@ -50,10 +48,23 @@ export type InputListComponentType = {
 };
 
 export type TextAreaComponentType = {
+  field_name?: string;
+  nodeClass?: APIClassType;
+  setNodeClass?: (value: APIClassType) => void;
   disabled: boolean;
   onChange: (value: string[] | string) => void;
   value: string;
   editNode?: boolean;
+};
+
+export type CodeAreaComponentType = {
+  disabled: boolean;
+  onChange: (value: string[] | string) => void;
+  value: string;
+  editNode?: boolean;
+  nodeClass?: APIClassType;
+  setNodeClass?: (value: APIClassType) => void;
+  dynamic?: boolean;
 };
 
 export type FileComponentType = {
@@ -82,7 +93,6 @@ export type DisclosureComponentType = {
 export type FloatComponentType = {
   value: string;
   disabled?: boolean;
-  disableCopyPaste?: boolean;
   onChange: (value: string) => void;
   editNode?: boolean;
 };
@@ -115,3 +125,49 @@ export type RadialProgressType = {
   value?: number;
   color?: string;
 };
+
+export type AccordionComponentType = {
+  children?: ReactElement;
+  open?: string[];
+  trigger?: string | ReactElement;
+  keyValue?: string;
+};
+export type Side = "top" | "right" | "bottom" | "left";
+
+export type ShadTooltipProps = {
+  delayDuration?: number;
+  side?: Side;
+  content: ReactNode;
+  children: ReactNode;
+  style?: string;
+};
+export type ShadToolTipType = {
+  content?: ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
+  asChild?: boolean;
+  children?: ReactElement;
+  delayDuration?: number;
+  styleClasses?: string;
+};
+
+export type TextHighlightType = {
+  value?: string;
+  side?: "top" | "right" | "bottom" | "left";
+  asChild?: boolean;
+  children?: ReactElement;
+  delayDuration?: number;
+};
+
+export interface IVarHighlightType {
+  name: string;
+}
+
+export type IconComponentProps = {
+  name: string;
+  className: string;
+  iconColor?: string;
+};
+
+export interface languageMap {
+  [key: string]: string | undefined;
+}
