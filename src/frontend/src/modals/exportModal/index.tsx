@@ -1,84 +1,97 @@
-import { ReactNode, forwardRef, useContext, useEffect, useState } from "react";
-import EditFlowSettings from "../../components/EditFlowSettingsComponent";
-import IconComponent from "../../components/genericIconComponent";
+import { useContext, useRef, useState } from "react";
+import { alertContext } from "../../contexts/alertContext";
+import { PopUpContext } from "../../contexts/popUpContext";
+import { TabsContext } from "../../contexts/tabsContext";
+import { removeApiKeys } from "../../utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../components/ui/dialog";
 import { Button } from "../../components/ui/button";
 import { Checkbox } from "../../components/ui/checkbox";
-import { EXPORT_DIALOG_SUBTITLE } from "../../constants/constants";
-import { TabsContext } from "../../contexts/tabsContext";
-import { removeApiKeys } from "../../utils/reactflowUtils";
-import BaseModal from "../baseModal";
+import { EXPORT_DIALOG_SUBTITLE } from "../../constants";
+import { Download } from "lucide-react";
+import EditFlowSettings from "../../components/EditFlowSettingsComponent";
 
-const ExportModal = forwardRef(
-  (props: { children: ReactNode }, ref): JSX.Element => {
-    const { flows, tabId, updateFlow, downloadFlow } = useContext(TabsContext);
-    const [checked, setChecked] = useState(false);
-    const flow = flows.find((f) => f.id === tabId);
-    useEffect(() => {
-      setName(flow.name);
-      setDescription(flow.description);
-    }, [flow.name, flow.description]);
-    const [name, setName] = useState(flow.name);
-    const [description, setDescription] = useState(flow.description);
-    const [open, setOpen] = useState(false);
-
-    return (
-      <BaseModal size="smaller" open={open} setOpen={setOpen}>
-        <BaseModal.Trigger>{props.children}</BaseModal.Trigger>
-        <BaseModal.Header description={EXPORT_DIALOG_SUBTITLE}>
-          <span className="pr-2">Export</span>
-          <IconComponent
-            name="Download"
-            className="h-6 w-6 pl-1 text-foreground"
-            aria-hidden="true"
-          />
-        </BaseModal.Header>
-        <BaseModal.Content>
-          <EditFlowSettings
-            name={name}
-            description={description}
-            flows={flows}
-            tabId={tabId}
-            setName={setName}
-            setDescription={setDescription}
-            updateFlow={updateFlow}
-          />
-          <div className="mt-3 flex items-center space-x-2">
-            <Checkbox
-              id="terms"
-              onCheckedChange={(event: boolean) => {
-                setChecked(event);
-              }}
+export default function ExportModal() {
+  const [open, setOpen] = useState(true);
+  const { closePopUp } = useContext(PopUpContext);
+  const ref = useRef();
+  const { setErrorData } = useContext(alertContext);
+  const { flows, tabId, updateFlow, downloadFlow } = useContext(TabsContext);
+  const [isMaxLength, setIsMaxLength] = useState(false);
+  function setModalOpen(x: boolean) {
+    setOpen(x);
+    if (x === false) {
+      setTimeout(() => {
+        closePopUp();
+      }, 300);
+    }
+  }
+  const [checked, setChecked] = useState(false);
+  const [name, setName] = useState(flows.find((f) => f.id === tabId).name);
+  const [description, setDescription] = useState(
+    flows.find((f) => f.id === tabId).description
+  );
+  return (
+    <Dialog open={true} onOpenChange={setModalOpen}>
+      <DialogTrigger asChild></DialogTrigger>
+      <DialogContent className="lg:max-w-[600px] h-[420px] ">
+        <DialogHeader>
+          <DialogTitle className="flex items-center">
+            <span className="pr-2">导出</span>
+            <Download
+              className="h-6 w-6 text-gray-800 pl-1 dark:text-white"
+              aria-hidden="true"
             />
-            <label htmlFor="terms" className="export-modal-save-api text-sm ">
-              Save with my API keys
-            </label>
-          </div>
-        </BaseModal.Content>
+          </DialogTitle>
+          <DialogDescription>{EXPORT_DIALOG_SUBTITLE}</DialogDescription>
+        </DialogHeader>
 
-        <BaseModal.Footer>
+        <EditFlowSettings
+          name={name}
+          description={description}
+          flows={flows}
+          tabId={tabId}
+          setName={setName}
+          setDescription={setDescription}
+          updateFlow={updateFlow}
+        />
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="terms"
+            onCheckedChange={(event: boolean) => {
+              setChecked(event);
+            }}
+          />
+          <label
+            htmlFor="terms"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            保存结果包含API秘钥
+          </label>
+        </div>
+
+        <DialogFooter>
           <Button
             onClick={() => {
-              if (checked)
-                downloadFlow(
-                  flows.find((flow) => flow.id === tabId)!,
-                  name!,
-                  description
-                );
+              if (checked) downloadFlow(flows.find((f) => f.id === tabId));
               else
-                downloadFlow(
-                  removeApiKeys(flows.find((flow) => flow.id === tabId)!),
-                  name!,
-                  description
-                );
-              setOpen(false);
+                downloadFlow(removeApiKeys(flows.find((f) => f.id === tabId)));
+
+              closePopUp();
             }}
             type="submit"
           >
-            Download Flow
+            下载工作流
           </Button>
-        </BaseModal.Footer>
-      </BaseModal>
-    );
-  }
-);
-export default ExportModal;
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

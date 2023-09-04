@@ -1,117 +1,83 @@
 import { useContext, useEffect } from "react";
+import { Download, Upload, Plus, Home, ExternalLink } from "lucide-react";
+import { TabsContext } from "../../contexts/tabsContext";
+import { Button } from "../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { CardComponent } from "../../components/cardComponent";
-import IconComponent from "../../components/genericIconComponent";
-import Header from "../../components/headerComponent";
-import { SkeletonCardComponent } from "../../components/skeletonCardComponent";
-import { Button } from "../../components/ui/button";
-import { USER_PROJECTS_HEADER } from "../../constants/constants";
-import { TabsContext } from "../../contexts/tabsContext";
-import DropdownButton from "../../components/DropdownButtonComponent";
-export default function HomePage(): JSX.Element {
-  const {
-    flows,
-    setTabId,
-    downloadFlows,
-    uploadFlows,
-    addFlow,
-    removeFlow, uploadFlow,
-    isLoading,
-  } = useContext(TabsContext);
-  const dropdownOptions = [{name: "Import from JSON", onBtnClick: () => uploadFlow(true).then((id) => {
-    navigate("/flow/" + id);
-  })}]
-
-  // Set a null id
+import { USER_PROJECTS_HEADER } from "../../constants";
+export default function HomePage() {
+  const { flows, setTabId, downloadFlows, uploadFlows, addFlow, removeFlow } =
+    useContext(TabsContext);
   useEffect(() => {
     setTabId("");
   }, []);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
-
-  // Personal flows display
   return (
-    <>
-      <Header />
-      <div className="main-page-panel">
-        <div className="main-page-nav-arrangement">
-          <span className="main-page-nav-title">
-            <IconComponent name="Home" className="w-6" />
-            {USER_PROJECTS_HEADER}
-          </span>
-          <div className="button-div-style">
-            <Button
-              variant="primary"
-              onClick={() => {
-                downloadFlows();
-              }}
-            >
-              <IconComponent name="Download" className="main-page-nav-button" />
-              Download Collection
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                uploadFlows();
-              }}
-            >
-              <IconComponent name="Upload" className="main-page-nav-button" />
-              Upload Collection
-            </Button>
-            <DropdownButton
-              firstButtonName="New Project"
-              onFirstBtnClick={() => {
-                addFlow(null!, true).then((id) => {
-                  navigate("/flow/" + id);
-                });
-              }}
-              options={dropdownOptions}
-            />
-          </div>
-        </div>
-        <span className="main-page-description-text">
-          Manage your personal projects. Download or upload your collection. 
+    <div className="w-full h-full flex overflow-auto flex-col bg-muted px-16">
+      <div className="w-full flex justify-between py-12 pb-2 px-6">
+        <span className="text-2xl flex items-center justify-center gap-2 font-semibold">
+          <Home className="w-6" />
+          {USER_PROJECTS_HEADER}
         </span>
-        <div className="main-page-flows-display">
-          {isLoading && flows.length == 0 ? (
-            <>
-              <SkeletonCardComponent />
-              <SkeletonCardComponent />
-              <SkeletonCardComponent />
-              <SkeletonCardComponent />
-            </>
-          ) : (
-            flows.map((flow, idx) => (
-              <CardComponent
-                key={idx}
-                flow={flow}
-                id={flow.id}
-                button={
-                  <Link to={"/flow/" + flow.id}>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="whitespace-nowrap "
-                    >
-                      <IconComponent
-                        name="ExternalLink"
-                        className="main-page-nav-button"
-                      />
-                      Edit Flow
-                    </Button>
-                  </Link>
-                }
-                onDelete={() => {
-                  removeFlow(flow.id);
-                }}
-              />
-            ))
-          )}
+        <div className="flex gap-2">
+          <Button
+            variant="primary"
+            onClick={() => {
+              downloadFlows();
+            }}
+          >
+            <Download className="w-4 mr-2" />
+            下载工作流
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              uploadFlows();
+            }}
+          >
+            <Upload className="w-4 mr-2" />
+            上传工作流
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              addFlow(null, true).then((id) => {
+                navigate("/flow/" + id);
+              });
+            }}
+          >
+            <Plus className="w-4 mr-2" />
+            新建项目
+          </Button>
         </div>
       </div>
-    </>
+      <span className="flex pb-14 px-6 text-muted-foreground w-[60%]">
+        管理您的项目。 下载或上传工作流。
+      </span>
+      <div className="w-full p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {flows.map((flow, idx) => (
+          <CardComponent
+            key={idx}
+            flow={flow}
+            id={flow.id}
+            button={
+              <Link to={"/flow/" + flow.id}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="whitespace-nowrap "
+                >
+                  <ExternalLink className="w-4 mr-2" />
+                  编辑
+                </Button>
+              </Link>
+            }
+            onDelete={() => {
+              removeFlow(flow.id);
+            }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

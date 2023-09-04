@@ -1,81 +1,83 @@
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InputListComponentType } from "../../types/components";
+import { TabsContext } from "../../contexts/tabsContext";
 
 import _ from "lodash";
-import { classNames } from "../../utils/utils";
-import IconComponent from "../genericIconComponent";
-import { Input } from "../ui/input";
+import { INPUT_STYLE } from "../../constants";
+import { X, Plus } from "lucide-react";
 
 export default function InputListComponent({
   value,
   onChange,
   disabled,
   editNode = false,
-}: InputListComponentType): JSX.Element {
+}: InputListComponentType) {
+  const [inputList, setInputList] = useState(value ?? [""]);
   useEffect(() => {
     if (disabled) {
+      setInputList([""]);
       onChange([""]);
     }
-  }, [disabled]);
-
+  }, [disabled, onChange]);
   return (
     <div
-      className={classNames(
-        value.length > 1 && editNode ? "my-1" : "",
-        "flex flex-col gap-3"
-      )}
+      className={
+        (disabled ? "pointer-events-none cursor-not-allowed" : "") +
+        "flex flex-col gap-3 py-2"
+      }
     >
-      {value.map((singleValue, idx) => {
-        return (
-          <div key={idx} className="flex w-full gap-3">
-            <Input
-              disabled={disabled}
-              type="text"
-              value={singleValue}
-              className={editNode ? "input-edit-node" : ""}
-              placeholder="Type something..."
-              onChange={(event) => {
-                let newInputList = _.cloneDeep(value);
-                newInputList[idx] = event.target.value;
-                onChange(newInputList);
-              }}
-              onKeyDown={(e) => {
-                if (e.ctrlKey && e.key === "Backspace") {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-            />
-            {idx === value.length - 1 ? (
-              <button
-                onClick={() => {
-                  let newInputList = _.cloneDeep(value);
+      {inputList.map((i, idx) => (
+        <div key={idx} className="w-full flex gap-3">
+          <input
+            type="text"
+            value={i}
+            className={
+              editNode
+                ? "border-[1px]  truncate cursor-pointer text-center placeholder:text-center text-gray-500 block w-full pt-0.5 pb-0.5 form-input dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 rounded-md border-gray-300 shadow-sm sm:text-sm" +
+                  INPUT_STYLE
+                : "block w-full form-input rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" +
+                  (disabled ? " bg-gray-200" : "") +
+                  "focus:placeholder-transparent"
+            }
+            placeholder="输入..."
+            onChange={(e) => {
+              setInputList((old) => {
+                let newInputList = _.cloneDeep(old);
+                newInputList[idx] = e.target.value;
+                return newInputList;
+              });
+              onChange(inputList);
+            }}
+          />
+          {idx === inputList.length - 1 ? (
+            <button
+              onClick={() => {
+                setInputList((old) => {
+                  let newInputList = _.cloneDeep(old);
                   newInputList.push("");
-                  onChange(newInputList);
-                }}
-              >
-                <IconComponent
-                  name="Plus"
-                  className={"h-4 w-4 hover:text-accent-foreground"}
-                />
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  let newInputList = _.cloneDeep(value);
+                  return newInputList;
+                });
+                onChange(inputList);
+              }}
+            >
+              <Plus className={"w-4 h-4 hover:text-ring"} />
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setInputList((old) => {
+                  let newInputList = _.cloneDeep(old);
                   newInputList.splice(idx, 1);
-                  onChange(newInputList);
-                }}
-              >
-                <IconComponent
-                  name="X"
-                  className="h-4 w-4 hover:text-status-red"
-                />
-              </button>
-            )}
-          </div>
-        );
-      })}
+                  return newInputList;
+                });
+                onChange(inputList);
+              }}
+            >
+              <X className="w-4 h-4 hover:text-red-600" />
+            </button>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

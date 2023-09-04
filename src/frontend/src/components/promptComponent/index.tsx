@@ -1,72 +1,83 @@
-import { useEffect } from "react";
-
-import { TypeModal } from "../../constants/enums";
-import { postValidatePrompt } from "../../controllers/API";
-import GenericModal from "../../modals/genericModal";
+import { useContext, useEffect, useState } from "react";
+import { PopUpContext } from "../../contexts/popUpContext";
 import { TextAreaComponentType } from "../../types/components";
-import IconComponent from "../genericIconComponent";
+import GenericModal from "../../modals/genericModal";
+import { TypeModal } from "../../utils";
+import { INPUT_STYLE } from "../../constants";
+import { ExternalLink } from "lucide-react";
 
 export default function PromptAreaComponent({
-  field_name,
-  setNodeClass,
-  nodeClass,
   value,
   onChange,
   disabled,
   editNode = false,
-}: TextAreaComponentType): JSX.Element {
+}: TextAreaComponentType) {
+  const [myValue, setMyValue] = useState(value);
+  const { openPopUp } = useContext(PopUpContext);
   useEffect(() => {
     if (disabled) {
+      setMyValue("");
       onChange("");
     }
-  }, [disabled]);
+  }, [disabled, onChange]);
 
   useEffect(() => {
-    if (value !== "" && !editNode) {
-      postValidatePrompt(field_name!, value, nodeClass!).then((apiReturn) => {
-        if (apiReturn.data) {
-          setNodeClass!(apiReturn.data.frontend_node);
-          // need to update reactFlowInstance to re-render the nodes.
-        }
-      });
-    }
-  }, []);
+    setMyValue(value);
+  }, [value]);
 
   return (
-    <div className={disabled ? "pointer-events-none w-full " : " w-full"}>
-      <GenericModal
-        type={TypeModal.PROMPT}
-        value={value}
-        buttonText="Check & Save"
-        modalTitle="Edit Prompt"
-        setValue={(value: string) => {
-          onChange(value);
-        }}
-        nodeClass={nodeClass}
-        setNodeClass={setNodeClass}
-      >
-        <div className="flex w-full items-center">
-          <span
-            className={
-              editNode
-                ? "input-edit-node input-dialog"
-                : (disabled ? " input-disable text-ring " : "") +
-                  " primary-input text-muted-foreground "
-            }
-          >
-            {value !== "" ? value : "Type your prompt here..."}
-          </span>
+    <div
+      className={
+        disabled ? "pointer-events-none cursor-not-allowed w-full" : " w-full"
+      }
+    >
+      <div className="w-full flex items-center gap-3">
+        <span
+          onClick={() => {
+            openPopUp(
+              <GenericModal
+                type={TypeModal.PROMPT}
+                value={myValue}
+                buttonText="检查并保存"
+                modalTitle="编辑Prompt"
+                setValue={(t: string) => {
+                  setMyValue(t);
+                  onChange(t);
+                }}
+              />
+            );
+          }}
+          className={
+            editNode
+              ? "cursor-pointer truncate placeholder:text-center text-gray-500 border-1 block w-full pt-0.5 pb-0.5 form-input dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 rounded-md border-gray-300 shadow-sm sm:text-sm" +
+                INPUT_STYLE
+              : "truncate block w-full text-gray-500 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 shadow-sm sm:text-sm" +
+                (disabled ? " bg-gray-200" : "")
+          }
+        >
+          {myValue !== "" ? myValue : "输入您的prompt"}
+        </span>
+        <button
+          onClick={() => {
+            openPopUp(
+              <GenericModal
+                type={TypeModal.PROMPT}
+                value={myValue}
+                buttonText="检查并保存"
+                modalTitle="编辑Prompt"
+                setValue={(t: string) => {
+                  setMyValue(t);
+                  onChange(t);
+                }}
+              />
+            );
+          }}
+        >
           {!editNode && (
-            <IconComponent
-              name="ExternalLink"
-              className={
-                "icons-parameters-comp" +
-                (disabled ? " text-ring" : " hover:text-accent-foreground")
-              }
-            />
+            <ExternalLink className="w-6 h-6 hover:text-ring dark:text-gray-300" />
           )}
-        </div>
-      </GenericModal>
+        </button>
+      </div>
     </div>
   );
 }
